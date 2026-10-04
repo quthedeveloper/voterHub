@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { CheckCircle2 } from "lucide-react";
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { Typewriter } from  "react-simple-typewriter";
+import { useAuth } from "../auth/AuthContext";
+import { API_BASE, homeForRole } from "../lib/api";
 import FormMessage from "../components/FormMessage";
 import { BallotBoxSvg } from "../components/illustrations";
 import "./AuthPages.css";
 
 export default function SignupPage() {
    const navigate = useNavigate();
- 
+   const { user, initialized } = useAuth();
+
   const [role, setRole] = useState<"organizer" | "voter">("organizer");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -18,7 +21,13 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [formMessage, setFormMessage] = useState<"error" | "success" | null>(null);
   const [loading, setLoading] = useState(false);
- 
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Already signed in? GuestRoute usually catches this, but stay safe.
+  if (initialized && user) {
+    return <Navigate to={homeForRole(user.role)} replace />;
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -42,7 +51,7 @@ export default function SignupPage() {
  
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/register", {
+      const res = await fetch(`${API_BASE}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submission),
@@ -115,11 +124,22 @@ export default function SignupPage() {
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" placeholder="Create a password" 
-               name="password"
-               value={formData.password}
-               onChange={handleInputChange}
-               className="form-control" />
+              <div className="password-field">
+                <input type={showPassword ? "text" : "password"} placeholder="Create a password (min. 8 characters)"
+                 name="password"
+                 value={formData.password}
+                 onChange={handleInputChange}
+                 className="form-control" />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((s) => !s)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
+              </div>
+              <p className="field-hint">Use at least 8 characters.</p>
             </div>
             <div className="field">
               <label>Role</label>

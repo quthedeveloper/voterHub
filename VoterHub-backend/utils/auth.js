@@ -10,9 +10,9 @@ export const createAuthClient = () =>
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-// The refresh cookie is only sent to /api/auth/*, never to your other routes.
-// If you mount the auth router somewhere else, change this path to match.
-const REFRESH_COOKIE_PATH = "/api/auth";
+// The refresh cookie is scoped to /api so the browser sends it back to
+// /api/refresh (and only to API routes, never to other paths).
+const REFRESH_COOKIE_PATH = "/api";
 
 const cookieBase = {
   httpOnly: true,

@@ -40,7 +40,6 @@ export async function login(req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    console.log(data.session);
     const user = await getProfile(data.user.id);
 
     // Refresh token -> httpOnly cookie. Access token -> JSON body.

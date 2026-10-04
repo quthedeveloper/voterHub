@@ -109,3 +109,25 @@
   box-shadow: var(--shadow-sm);
 }
 .btn-primary-4:hover { background: var(--ink-soft); box-shadow: var(--shadow-md); }
+
+/* Password visibility toggle */
+.password-field { position: relative; }
+.password-field .form-control { padding-right: 46px; }
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+.password-toggle:hover { color: var(--ink); background: var(--bg); }
+.password-toggle:focus-visible { outline: none; box-shadow: var(--ring); }

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { CheckCircle2 } from "lucide-react";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
+import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 import { useAuth } from "../auth/AuthContext";
+import { homeForRole } from "../lib/api";
 import FormMessage from "../components/FormMessage";
 import { ShieldCheckSvg } from "../components/illustrations";
 import "../styles/global.css";
@@ -10,16 +11,23 @@ import "./AuthPages.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, user, initialized } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [remember, setRemember] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [formMessage, setFormMessage] = useState<"error" | "success" | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Already signed in? GuestRoute usually catches this, but stay safe.
+  if (initialized && user) {
+    return <Navigate to={homeForRole(user.role)} replace />;
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,7 +52,8 @@ export default function LoginPage() {
 
       setFormMessage("success");
       setTimeout(() => {
-        navigate(user.role === "organizer" ? "/dashboard" : "/join-poll");
+        const from = (location.state as { from?: string } | null)?.from;
+        navigate(from || homeForRole(user.role), { replace: true });
       }, 800);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -100,15 +109,25 @@ export default function LoginPage() {
               </div>
               <div className="field">
                 <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  className="form-control"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                />
+                <div className="password-field">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter your password"
+                    className="form-control"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword((s) => !s)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                  </button>
+                </div>
               </div>
               <div className="auth-row">
                 <label className="auth-checkbox">
@@ -119,7 +138,7 @@ export default function LoginPage() {
                   />{" "}
                   Remember me
                 </label>
-                <a href="#" className="muted" style={{ fontSize: 13 }}>Forgot password?</a>
+                <Link to="/forgot-password" style={{ fontSize: 13 }}>Forgot password?</Link>
               </div>
               <button className="btn btn-primary-4 btn-full" type="submit" disabled={loading}>
                 {loading ? "Logging in..." : "Log In"}
