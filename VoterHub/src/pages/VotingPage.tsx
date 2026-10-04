@@ -45,6 +45,7 @@ export default function VotingPage() {
                 <strong>{c.name}</strong>
                 <span>{c.tagline}</span>
               </div>
+              <CheckCircle2 size={20} className="voting-option-check" />
             </label>
           ))}
         </div>

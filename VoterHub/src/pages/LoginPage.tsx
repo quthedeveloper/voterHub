@@ -4,6 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 import { useAuth } from "../auth/AuthContext";
 import FormMessage from "../components/FormMessage";
+import { ShieldCheckSvg } from "../components/illustrations";
 import "../styles/global.css";
 import "./AuthPages.css";
 
@@ -95,7 +96,6 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  style={{ padding: "20px 20px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}
                 />
               </div>
               <div className="field">
@@ -108,7 +108,6 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  style={{ padding: "20px 20px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}
                 />
               </div>
               <div className="auth-row">
@@ -142,6 +141,13 @@ export default function LoginPage() {
           className="split-auth-image"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1605433975283-263394f3514e?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
         >
+          <div className="auth-image-badge">
+            <ShieldCheckSvg width={30} height={30} title="Secure sign in" />
+            <div>
+              <strong>Secure sign-in</strong>
+              <span>Your vote stays private</span>
+            </div>
+          </div>
           <p className="split-auth-image-quote">Better decisions with your community.</p>
         </div>
       </div>

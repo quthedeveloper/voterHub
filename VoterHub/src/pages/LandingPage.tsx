@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { CheckCircle2, FileText, Building2, Briefcase, GraduationCap } from "lucide-react";
+import { CheckCircle2, FileText, Building2, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
 import { Typewriter } from  "react-simple-typewriter";
 // import CountUp from "react-countup";
 import { useState, useEffect } from "react";
 import "./LandingPage.css";
 import {FaqSection} from "../components/Faq.tsx";
 import GetStartedSection from "../components/GetStarted.tsx";
+import { BallotBoxSvg, ChartBarsSvg, UsersSvg, DecoRingsSvg } from "../components/illustrations";
 
 function useCountUp(end: number, duration = 2000) {
   const [value, setValue] = useState(0);
@@ -45,6 +46,10 @@ export default function LandingPage() {
           <CheckCircle2 size={25}  color="rgba(7, 9, 11, 0.45)"/>
           VoteHub
         </div>
+        <div className="landing-nav-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#faq">FAQ</a>
+        </div>
         <div className="landing-nav-cta">
           <Link to="/login" className="btn btn-outline btn-sm">Log In</Link>
           <Link to="/signup" className="btn btn-primary btn-sm">Get Started</Link>
@@ -58,6 +63,9 @@ export default function LandingPage() {
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1619059617660-d42ec4abe29a?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
         >
           <div className="landing-hero-overlay" />
+          <div className="landing-hero-deco anim-float" aria-hidden="true">
+            <DecoRingsSvg width={220} height={220} />
+          </div>
           <div className="landing-hero-content">
             <p className="landing-eyebrow">MODERN VOTING PLATFORM</p>
             <h1>
@@ -82,28 +90,45 @@ export default function LandingPage() {
           </div>
         </header>
 
-        {/* STATS — its own rounded card */}
+        {/* STATS — icon cards */}
         <div className="landing-stats-bar">
-            <div>
-    <strong><CountUpValue end={12481} duration={2000} separator /></strong>
-    <span>Polls created</span>
-  </div>
-  <div>
-    <strong><CountUpValue end={348} duration={2000} /></strong>
-    <span>Active polls</span>
-  </div>
-  <div>
-    <strong><CountUpValue end={98.7} duration={2000} decimals={1} suffix="%" /></strong>
-    <span>Voter satisfaction</span>
-  </div>
+          <div className="landing-stat">
+            <div className="landing-stat-icon"><BallotBoxSvg width={34} height={34} title="Polls created" /></div>
+            <div className="landing-stat-text">
+              <strong><CountUpValue end={12481} duration={2000} separator /></strong>
+              <span>Polls created</span>
+            </div>
+          </div>
+          <div className="landing-stat">
+            <div className="landing-stat-icon"><ChartBarsSvg width={34} height={34} title="Active polls" /></div>
+            <div className="landing-stat-text">
+              <strong><CountUpValue end={348} duration={2000} /></strong>
+              <span>Active polls</span>
+            </div>
+          </div>
+          <div className="landing-stat">
+            <div className="landing-stat-icon"><UsersSvg width={34} height={34} title="Voter satisfaction" /></div>
+            <div className="landing-stat-text">
+              <strong><CountUpValue end={98.7} duration={2000} decimals={1} suffix="%" /></strong>
+              <span>Voter satisfaction</span>
+            </div>
+          </div>
         </div>
 
         {/* VOICE — side-by-side image + text, inside one rounded card */}
-        <section className="landing-voice"style={{ marginBottom: 0 }}>
+        <section className="landing-voice" id="how-it-works" style={{ marginBottom: 0 }}>
           <div
             className="landing-voice-image"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1764173039610-aecaafe54ef4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
-          />
+          >
+            <div className="landing-voice-badge">
+              <ShieldCheck size={26} color="var(--accent)" />
+              <div>
+                <strong>Secure & anonymous</strong>
+                <span>Every ballot stays private</span>
+              </div>
+            </div>
+          </div>
           <div className="landing-voice-text">
             <p className="landing-eyebrow">SIMPLE. SECURE. RELIABLE.</p>
             <h2 className="landing-voice-headings" style={{ fontSize: '48px' }}>

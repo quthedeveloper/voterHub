@@ -18,43 +18,47 @@ export default function PollDetailsPage() {
           <div className="dash-topbar-icons"><Bell size={18} /></div>
         </div>
 
-        <div className="poll-details-header">
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <h1 className="dash-greeting">Student Council Election</h1>
-              <span className="badge badge-active">Active</span>
+        <div className="page-head anim-fade-up">
+          <div className="page-head-row">
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                <h1 className="page-title" style={{ marginBottom: 0 }}>Student Council Election</h1>
+                <span className="badge badge-active">Active</span>
+              </div>
+              <p className="page-sub" style={{ fontSize: 13 }}>REF: UNI-2026-7K42 · 2 days left</p>
             </div>
-            <p className="muted" style={{ fontSize: 13 }}>REF: UNI-2026-7K42 · 2 days left</p>
+            <button className="btn btn-outline btn-sm"><Share2 size={14} /> Share Poll</button>
           </div>
-          <button className="btn btn-outline btn-sm"><Share2 size={14} /> Share Poll</button>
         </div>
 
-        <div className="dash-stats" style={{ marginTop: 20 }}>
-          <div className="card dash-stat-card"><p className="dash-stat-value">247</p><p className="muted" style={{ fontSize: 13 }}>Eligible voters</p></div>
-          <div className="card dash-stat-card"><p className="dash-stat-value">183</p><p className="muted" style={{ fontSize: 13 }}>Votes cast</p></div>
-          <div className="card dash-stat-card"><p className="dash-stat-value">74.1%</p><p className="muted" style={{ fontSize: 13 }}>Turnout</p></div>
+        <div className="dash-stats">
+          <div className="card card-hover dash-stat-card anim-fade-up-1"><div><p className="dash-stat-value">247</p><p className="dash-stat-label">Eligible voters</p></div></div>
+          <div className="card card-hover dash-stat-card anim-fade-up-2"><div><p className="dash-stat-value">183</p><p className="dash-stat-label">Votes cast</p></div></div>
+          <div className="card card-hover dash-stat-card anim-fade-up-3"><div><p className="dash-stat-value">74.1%</p><p className="dash-stat-label">Turnout</p></div></div>
         </div>
 
         <div className="poll-details-grid">
-          <div className="card">
-            <h3 className="create-poll-section-title">Poll Controls</h3>
-            <button className="btn btn-danger btn-full" style={{ marginBottom: 8 }}><XCircle size={15} /> Close Poll</button>
-            <button className="btn btn-outline btn-full" style={{ marginBottom: 8 }}><Pause size={15} /> Pause Voting</button>
-            <button className="btn btn-outline btn-full"><Edit3 size={15} /> Edit Poll</button>
+          <div className="card anim-fade-up-2">
+            <h3 className="section-title">Poll Controls</h3>
+            <div className="poll-details-controls">
+              <button className="btn btn-danger btn-full"><XCircle size={15} /> Close Poll</button>
+              <button className="btn btn-outline btn-full"><Pause size={15} /> Pause Voting</button>
+              <button className="btn btn-outline btn-full"><Edit3 size={15} /> Edit Poll</button>
+            </div>
           </div>
 
-          <div className="card">
-            <h3 className="create-poll-section-title">Candidates & Results</h3>
+          <div className="card anim-fade-up-3">
+            <h3 className="section-title">Candidates & Results</h3>
             <div className="poll-details-candidate-list">
               <div className="poll-details-candidate-header">
-                <span>Candidate</span><span>Votes</span><span>Percentage</span>
+                <span>Candidate</span><span>Votes</span><span>Percentage</span><span />
               </div>
-              {candidates.map((c) => (
+              {candidates.map((c, i) => (
                 <div key={c.name} className="poll-details-candidate-row">
-                  <span>{c.name}</span>
+                  <strong>{c.name}</strong>
                   <span>{c.votes}</span>
-                  <div className="results-bar-track" style={{ flex: 1 }}>
-                    <div className="results-bar-fill" style={{ width: `${c.pct}%` }} />
+                  <div className="poll-details-bar-track" style={{ flex: 1 }}>
+                    <div className="poll-details-bar-fill" style={{ width: `${c.pct}%`, animationDelay: `${i * 140}ms` }} />
                   </div>
                   <span style={{ width: 46, textAlign: "right" }}>{c.pct}%</span>
                 </div>

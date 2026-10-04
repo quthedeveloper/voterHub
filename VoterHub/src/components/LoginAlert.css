@@ -1,0 +1,77 @@
+.login-alert-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(16, 24, 40, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: login-alert-fade 200ms ease both;
+}
+
+.login-alert-card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: pop-in 380ms var(--ease-out) both;
+}
+
+.login-alert-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms var(--ease-out);
+}
+.login-alert-close:hover { background: var(--border); color: var(--ink); transform: scale(1.06); }
+.login-alert-close:focus-visible { outline: none; box-shadow: var(--ring); }
+
+.login-alert-art {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.login-alert-art svg { animation: float-y 5s ease-in-out infinite; }
+
+.login-alert-title {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.login-alert-message {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.login-alert-fine {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.login-alert-link {
+  color: var(--accent);
+  font-weight: 600;
+}
+.login-alert-link:hover { text-decoration: underline; }
+
+@keyframes login-alert-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

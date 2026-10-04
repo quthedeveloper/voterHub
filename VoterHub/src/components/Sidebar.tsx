@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, ListChecks, PlusCircle, BarChart3, Settings, CheckCircle2 } from "lucide-react";
-// @ts-expect-error CSS side-effect imports are handled by the bundler.
 import "./Sidebar.css";
 
 const links = [

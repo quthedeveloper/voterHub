@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { ShieldCheckSvg } from "../components/illustrations";
 import "./JoinPollPage.css";
 
 export default function JoinPollPage() {
@@ -15,6 +16,9 @@ export default function JoinPollPage() {
           <div className="logo" style={{ color: "#fff" }}>
             <span className="logo-mark" style={{ background: "#fff", color: "var(--ink)" }}>✓</span>
             VoteHub
+          </div>
+          <div className="join-poll-hero-art">
+            <ShieldCheckSvg width={44} height={44} title="Secure poll access" />
           </div>
           <h1>Join a Poll</h1>
         </div>

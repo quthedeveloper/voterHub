@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { Typewriter } from  "react-simple-typewriter";
 import FormMessage from "../components/FormMessage";
+import { BallotBoxSvg } from "../components/illustrations";
 import "./AuthPages.css";
 
 export default function SignupPage() {
@@ -102,7 +103,7 @@ export default function SignupPage() {
                name="fullName"
                value={formData.fullName}
                onChange={handleInputChange}
-               style={{ padding: "20px 20px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}/>
+               className="form-control" />
             </div>
             <div className="field">
               <label>Email address</label>
@@ -110,7 +111,7 @@ export default function SignupPage() {
                name="email"
                value={formData.email}
                onChange={handleInputChange}
-               style={{ padding: "20px 20px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}/>
+               className="form-control" />
             </div>
             <div className="field">
               <label>Password</label>
@@ -118,7 +119,7 @@ export default function SignupPage() {
                name="password"
                value={formData.password}
                onChange={handleInputChange}
-               style={{ padding: "20px 20px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}  />
+               className="form-control" />
             </div>
             <div className="field">
               <label>Role</label>
@@ -139,8 +140,8 @@ export default function SignupPage() {
                 </label>
               </div>
             </div>
-            <button className="btn btn-primary-4 btn-full" type="submit" style={{ marginTop: 8 }}>
-              Create account
+            <button className="btn btn-primary-4 btn-full" type="submit" style={{ marginTop: 8 }} disabled={loading}>
+              {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
@@ -154,6 +155,13 @@ export default function SignupPage() {
         className="split-auth-image"
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1619059617660-d42ec4abe29a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
       >
+        <div className="auth-image-badge">
+          <BallotBoxSvg width={30} height={30} title="Create polls" />
+          <div>
+            <strong>Free to start</strong>
+            <span>Create your first poll in minutes</span>
+          </div>
+        </div>
         <p className="split-auth-image-quote">Better decisions with your community.</p>
       </div>
     </div>

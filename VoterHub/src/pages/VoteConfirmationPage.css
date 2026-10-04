@@ -1,21 +1,34 @@
 .confirm-card { text-align: center; }
-.confirm-check {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--ink); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
+.confirm-art {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  animation: pop-in 520ms var(--ease-out) both;
 }
-.confirm-card h1 { font-size: 22px; margin-bottom: 6px; }
+.confirm-art svg { filter: drop-shadow(0 12px 24px rgba(47, 111, 235, 0.25)); }
+.confirm-card h1 { font-size: 26px; margin-bottom: 8px; letter-spacing: -0.02em; }
+.confirm-card > .muted { font-size: 14px; line-height: 1.6; }
 .confirm-poll-chip {
   display: flex; align-items: center; gap: 12px; text-align: left;
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 12px 14px; margin: 24px 0;
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px 16px; margin: 26px 0 20px;
+  background: var(--bg);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms var(--ease-out);
 }
+.confirm-poll-chip:hover { border-color: #b9c6e8; box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .confirm-poll-chip-icon {
-  width: 34px; height: 34px; border-radius: 8px;
+  width: 38px; height: 38px; border-radius: 10px;
   background: var(--accent-soft); color: var(--accent);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.confirm-poll-chip strong { display: block; font-size: 13px; }
+.confirm-poll-chip strong { display: block; font-size: 13px; margin-bottom: 2px; }
 .confirm-poll-chip span { font-size: 11px; color: var(--muted); }
-.confirm-back { font-size: 13px; color: var(--muted); }
+.confirm-poll-chip .btn { margin-left: auto; }
+.confirm-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  transition: color 150ms ease;
+}
+.confirm-back:hover { color: var(--ink); }
+.confirm-back svg { transition: transform 180ms var(--ease-out); }
+.confirm-back:hover svg { transform: translateX(-3px); }

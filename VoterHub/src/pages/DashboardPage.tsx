@@ -1,12 +1,13 @@
 import Sidebar from "../components/Sidebar";
-import { Search, Bell, MoreVertical } from "lucide-react";
+import { Search, Bell, MoreVertical, Archive, ArrowRight } from "lucide-react";
+import { BallotBoxSvg, ChartBarsSvg, UsersSvg } from "../components/illustrations";
 import "./DashboardPage.css";
 
 const stats = [
-  { label: "Total Polls", value: 5 },
-  { label: "Active Polls", value: 2 },
-  { label: "Closed Polls", value: 3 },
-  { label: "Total Voters", value: "1,248" },
+  { label: "Total Polls", value: 5, art: <BallotBoxSvg width={22} height={22} title="Total polls" /> },
+  { label: "Active Polls", value: 2, art: <ChartBarsSvg width={22} height={22} title="Active polls" /> },
+  { label: "Closed Polls", value: 3, art: <Archive size={20} /> },
+  { label: "Total Voters", value: "1,248", art: <UsersSvg width={22} height={22} title="Total voters" /> },
 ];
 
 const polls = [
@@ -26,34 +27,40 @@ export default function DashboardPage() {
             <input placeholder="Search polls..." />
           </div>
           <div className="dash-topbar-icons">
-            <Bell size={18} />
-            <div className="sidebar-avatar" style={{ width: 32, height: 32 }}>BQ</div>
+            <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+            <div className="sidebar-avatar" style={{ width: 36, height: 36 }}>BQ</div>
           </div>
         </div>
 
-        <h1 className="dash-greeting">Good afternoon, Bryan 👋</h1>
-        <p className="muted" style={{ marginBottom: 24 }}>Here's an overview of your polls and activity.</p>
+        <div className="page-head anim-fade-up">
+          <p className="page-eyebrow">Overview</p>
+          <h1 className="page-title">Good afternoon, Bryan 👋</h1>
+          <p className="page-sub">Here's an overview of your polls and activity.</p>
+        </div>
 
         <div className="dash-stats">
-          {stats.map((s) => (
-            <div key={s.label} className="card dash-stat-card">
-              <p className="dash-stat-value">{s.value}</p>
-              <p className="muted" style={{ fontSize: 13 }}>{s.label}</p>
+          {stats.map((s, i) => (
+            <div key={s.label} className={`card card-hover dash-stat-card anim-fade-up-${Math.min(i + 1, 3)}`}>
+              <span className="icon-badge">{s.art}</span>
+              <div>
+                <p className="dash-stat-value">{s.value}</p>
+                <p className="dash-stat-label">{s.label}</p>
+              </div>
             </div>
           ))}
         </div>
 
         <div className="dash-recent-header">
           <h2>Recent Polls</h2>
-          <a href="#" className="muted" style={{ fontSize: 13 }}>View all →</a>
+          <a href="#" className="dash-view-all">View all <ArrowRight size={13} /></a>
         </div>
 
         <div className="dash-poll-list">
           {polls.map((p) => (
-            <div key={p.ref} className="card dash-poll-row">
+            <div key={p.ref} className="card card-hover dash-poll-row">
               <div className="dash-poll-info">
                 <p className="dash-poll-title">{p.title}</p>
-                <p className="muted" style={{ fontSize: 12 }}>REF: {p.ref} · {p.meta}</p>
+                <p className="dash-poll-ref">REF: {p.ref} · {p.meta}</p>
               </div>
               <div className="dash-poll-metric">
                 <strong>{p.voters}</strong>

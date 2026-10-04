@@ -1,5 +1,6 @@
 import Sidebar from "../components/Sidebar";
-import { Search, Bell, QrCode, Copy, CheckCircle2 } from "lucide-react";
+import { Search, Bell, QrCode, Copy, CheckCircle2, ArrowRight } from "lucide-react";
+import { ShareLinkSvg } from "../components/illustrations";
 import "./PollCreatedPage.css";
 
 export default function PollCreatedPage() {
@@ -12,12 +13,18 @@ export default function PollCreatedPage() {
           <div className="dash-topbar-icons"><Bell size={18} /></div>
         </div>
 
-        <div className="card poll-created-card">
+        <div className="card poll-created-card anim-fade-up">
           <div className="poll-created-check"><CheckCircle2 size={22} /></div>
-          <h1 className="dash-greeting">Poll Created!</h1>
-          <p className="muted" style={{ marginBottom: 24 }}>
+          <p className="page-eyebrow">Success</p>
+          <h1 className="page-title" style={{ marginBottom: 8 }}>Poll Created!</h1>
+          <p className="page-sub" style={{ marginBottom: 24 }}>
             Share the link or QR code below so voters can find your poll.
           </p>
+
+          <div className="poll-created-share-art">
+            <ShareLinkSvg width={40} height={40} title="Share your poll" />
+            <span>Voters can join with the reference, the link, or a quick scan.</span>
+          </div>
 
           <div className="poll-created-grid">
             <div>
@@ -42,7 +49,7 @@ export default function PollCreatedPage() {
             </div>
           </div>
 
-          <button className="btn btn-primary" style={{ marginTop: 8 }}>Go to Poll Details</button>
+          <button className="btn btn-primary" style={{ marginTop: 8 }}>Go to Poll Details <ArrowRight size={15} /></button>
         </div>
       </main>
     </div>

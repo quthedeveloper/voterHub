@@ -26,12 +26,19 @@ export default function CreatePollPage() {
           <div className="dash-topbar-icons"><Bell size={18} /></div>
         </div>
 
-        <h1 className="dash-greeting">Create a Poll</h1>
-        <p className="muted" style={{ marginBottom: 24 }}>Set up your poll details and preferences.</p>
+        <div className="page-head anim-fade-up">
+          <div className="page-head-row">
+            <div>
+              <p className="page-eyebrow">New poll</p>
+              <h1 className="page-title">Create a Poll</h1>
+              <p className="page-sub">Set up your poll details and preferences.</p>
+            </div>
+          </div>
+        </div>
 
         <div className="create-poll-grid">
-          <div className="card">
-            <h3 className="create-poll-section-title">Poll Details</h3>
+          <div className="card anim-fade-up-1">
+            <h3 className="section-title">Poll Details</h3>
             <div className="field">
               <label>Title *</label>
               <input placeholder="e.g. Student Council Election" />
@@ -61,8 +68,8 @@ export default function CreatePollPage() {
             </div>
           </div>
 
-          <div className="card">
-            <h3 className="create-poll-section-title">Voting Settings</h3>
+          <div className="card anim-fade-up-2">
+            <h3 className="section-title">Voting Settings</h3>
             <ToggleRow label="Allow only one vote per voter" checked={toggles.oneVote} onChange={() => toggle("oneVote")} />
             <ToggleRow label="Require login to vote" checked={toggles.requireLogin} onChange={() => toggle("requireLogin")} />
             <ToggleRow label="Show results after voting" checked={toggles.showResults} onChange={() => toggle("showResults")} />
@@ -73,7 +80,7 @@ export default function CreatePollPage() {
               </div>
             )}
 
-            <h3 className="create-poll-section-title" style={{ marginTop: 20 }}>Schedule</h3>
+            <h3 className="section-title" style={{ marginTop: 20 }}>Schedule</h3>
             <div className="create-poll-schedule">
               <div className="field">
                 <label>Start date</label>
