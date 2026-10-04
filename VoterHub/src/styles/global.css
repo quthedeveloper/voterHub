@@ -1,28 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
-
 /* ---------- Design tokens ---------- */
 :root {
-  --ink: #101828;
-  --ink-soft: #1c2c4f;
+  --ink: #101014;
+  --ink-soft: #1d1d22;
   --surface: #ffffff;
-  --bg: #f6f7fb;
-  --border: #e5e7eb;
-  --muted: #6b7280;
-  --accent: #2f6feb;
-  --accent-deep: #1f56c4;
-  --accent-soft: #eaf1ff;
+  --bg: #f5f5f3;
+  --border: #e7e7e3;
+  --muted: #5d5d63;
+  --accent: #e8492b;
+  --accent-deep: #c93a20;
+  --accent-soft: #fdeee9;
   --success: #16a34a;
   --success-soft: #eafaf1;
   --danger: #dc2626;
-  --radius: 12px;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-heading: 'Sora', var(--font-body);
+  --radius: 8px;
+  --font-body: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-heading: 'Poppins', var(--font-body);
 
   /* elevation + motion */
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
   --shadow-md: 0 8px 24px -8px rgba(16, 24, 40, 0.18);
   --shadow-lg: 0 24px 48px -16px rgba(16, 24, 40, 0.28);
-  --ring: 0 0 0 3px rgba(47, 111, 235, 0.22);
+  --ring: 0 0 0 3px rgba(232, 73, 43, 0.2);
   --ease-out: cubic-bezier(0.22, 0.68, 0.32, 1);
 }
 
@@ -50,10 +48,11 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 11px 22px;
   font-size: 14px;
   font-weight: 600;
+  font-family: var(--font-heading);
   border: 1px solid transparent;
   transition: transform 160ms var(--ease-out), box-shadow 160ms ease,
     background-color 160ms ease, border-color 160ms ease, color 160ms ease;
@@ -72,11 +71,14 @@ img { display: block; max-width: 100%; }
   box-shadow: none;
 }
 
-.btn-primary { background: var(--ink); color: #fff; box-shadow: var(--shadow-sm); }
-.btn-primary:hover { background: var(--ink-soft); box-shadow: var(--shadow-md); }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary:hover { background: var(--accent-deep); box-shadow: 0 8px 24px -8px rgba(232, 73, 43, 0.55); }
+
+.btn-ink { background: var(--ink); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-ink:hover { background: var(--ink-soft); box-shadow: var(--shadow-md); }
 
 .btn-accent { background: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
-.btn-accent:hover { background: var(--accent-deep); box-shadow: 0 8px 24px -8px rgba(47, 111, 235, 0.55); }
+.btn-accent:hover { background: var(--accent-deep); box-shadow: 0 8px 24px -8px rgba(232, 73, 43, 0.55); }
 
 .btn-outline { background: #fff; border-color: var(--border); color: var(--ink); }
 .btn-outline:hover { border-color: #c3cad4; background: #fafbfd; box-shadow: var(--shadow-sm); }
@@ -85,8 +87,8 @@ img { display: block; max-width: 100%; }
 .btn-danger:hover { background: #fbdede; border-color: #f2aeae; box-shadow: var(--shadow-sm); }
 
 .btn-full { width: 100%; justify-content: center; }
-.btn-sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }
-.btn-lg { padding: 15px 30px; font-size: 15px; border-radius: 12px; }
+.btn-sm { padding: 7px 14px; font-size: 13px; border-radius: 6px; }
+.btn-lg { padding: 15px 30px; font-size: 15px; border-radius: 8px; }
 
 /* ---------- Inputs ---------- */
 .field { margin-bottom: 16px; }
@@ -103,7 +105,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   background: #fff;
@@ -150,7 +152,7 @@ img { display: block; max-width: 100%; }
 .icon-badge {
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -271,7 +273,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ---------- Misc shared ---------- */
-.logo { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 17px; font-family: 'Playfair Display', serif; }
+.logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; font-family: 'Poppins', sans-serif; letter-spacing: -0.01em; }
 .logo .logo-mark {
   width: 26px; height: 26px; border-radius: 6px;
   background: var(--ink); color: #fff;

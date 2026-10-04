@@ -4,14 +4,14 @@
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  background-image: radial-gradient(circle at 20% 20%, #eaf1ff 0, transparent 40%),
-    radial-gradient(circle at 85% 80%, #eaf1ff 0, transparent 38%);
+  background-image: radial-gradient(circle at 20% 20%, var(--accent-soft) 0, transparent 40%),
+    radial-gradient(circle at 85% 80%, var(--accent-soft) 0, transparent 38%);
   padding: 40px 20px;
 }
 .join-poll-card {
   width: 100%;
   max-width: 430px;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--border);
   background: #fff;
@@ -44,7 +44,7 @@
   top: 22px;
   width: 64px;
   height: 64px;
-  border-radius: 18px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.25);
