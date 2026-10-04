@@ -35,7 +35,7 @@ function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="landing-faq" id="faq" style={{ marginTop: 80 }}>
+    <section className="landing-faq" id="faq">
       <div className="landing-faq-head">
         <p className="landing-eyebrow">QUESTIONS, ANSWERED</p>
         <h2 className="landing-voice-headings">Frequently Asked</h2>
