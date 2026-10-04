@@ -1,9 +1,41 @@
-import { ChevronRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import UserMenu from "../components/UserMenu";
+import { useAuth } from "../auth/AuthContext";
+import { useToast } from "../components/Toast";
+import { Bell, ChevronRight, LogOut, KeyRound } from "lucide-react";
+import { UsersSvg } from "../components/illustrations";
 import "./ProfilePage.css";
 
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 export default function ProfilePage() {
+  const { user, logout } = useAuth();
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  // ProtectedRoute only renders this page for a signed-in user.
+  if (!user) return null;
+
+  const isOrganizer = user.role === "organizer";
+
+  const handleLogout = async () => {
+    await logout();
+    toast.success("You've been logged out. See you soon!");
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="app-shell">
+      <Sidebar />
       <main className="app-main profile-main">
         <div className="profile-content">
           <div className="page-head anim-fade-up">
@@ -12,51 +44,60 @@ export default function ProfilePage() {
                 <p className="page-eyebrow">Account</p>
                 <h1 className="page-title">Profile</h1>
               </div>
-              
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+                <UserMenu />
+              </div>
             </div>
           </div>
 
           <div className="card profile-identity anim-fade-up-1">
-            <div className="sidebar-avatar" style={{ width: 56, height: 56, fontSize: 17 }}>BQ</div>
+            <div className="sidebar-avatar" style={{ width: 56, height: 56, fontSize: 17 }}>
+              {initials(user.fullName)}
+            </div>
             <div>
-              <p className="profile-identity-name">Bryan Quartey</p>
-              <p className="profile-identity-email">bryan@email.com</p>
-              <span className="badge badge-accent">Organizer</span>
+              <p className="profile-identity-name">{user.fullName}</p>
+              <p className="profile-identity-email">{user.email}</p>
+              <span className={`badge ${isOrganizer ? "badge-accent" : "badge-active"}`}>
+                {isOrganizer ? "Organizer" : "Voter"}
+              </span>
             </div>
           </div>
 
           <div className="card anim-fade-up-2" style={{ marginTop: 16 }}>
             <h3 className="section-title">Account Information</h3>
-            <div className="field"><label>Full name</label><input defaultValue="Bryan Quartey" /></div>
-            <div className="field"><label>Email address</label><input defaultValue="bryan@email.com" /></div>
-            <div className="field" style={{ marginBottom: 0 }}><label>Role</label><input defaultValue="Organizer" disabled /></div>
+            <div className="profile-info-row">
+              <span className="profile-info-label">Full name</span>
+              <span className="profile-info-value">{user.fullName}</span>
+            </div>
+            <div className="profile-info-row">
+              <span className="profile-info-label">Email address</span>
+              <span className="profile-info-value">{user.email}</span>
+            </div>
+            <div className="profile-info-row profile-info-row-last">
+              <span className="profile-info-label">Role</span>
+              <span className="profile-info-value">{isOrganizer ? "Organizer" : "Voter"}</span>
+            </div>
           </div>
 
           <div className="card anim-fade-up-3" style={{ marginTop: 16 }}>
             <h3 className="section-title">Settings</h3>
-            <ProfileLink label="Personal information" />
-            <ProfileLink label="Notifications" />
-            <ProfileLink label="Security" />
-            <ProfileLink label="Log out" danger />
+            <Link to="/forgot-password" className="profile-link">
+              <span className="profile-link-label"><KeyRound size={15} /> Change password</span>
+              <ChevronRight size={15} />
+            </Link>
+            <button type="button" onClick={handleLogout} className="profile-link profile-link-danger">
+              <span className="profile-link-label"><LogOut size={15} /> Log out</span>
+              <ChevronRight size={15} />
+            </button>
           </div>
         </div>
 
-        <div
-          className="profile-side-image"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?fm=jpg&q=70&w=700&auto=format&fit=crop')" }}
-        >
-          <p className="split-auth-image-quote">Better decisions with your community.</p>
+        <div className="profile-side-art">
+          <UsersSvg width={120} height={120} title="Community" />
+          <p className="profile-side-quote">Better decisions with your community.</p>
         </div>
       </main>
     </div>
-  );
-}
-
-function ProfileLink({ label, danger }: { label: string; danger?: boolean }) {
-  return (
-    <a href="#" className={`profile-link${danger ? " profile-link-danger" : ""}`}>
-      {label}
-      <ChevronRight size={15} />
-    </a>
   );
 }
