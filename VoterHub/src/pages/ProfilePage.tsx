@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useToast } from "../components/Toast";
 import { Bell, ChevronRight, LogOut, KeyRound } from "lucide-react";
-import { UsersSvg } from "../components/illustrations";
 import "./ProfilePage.css";
 
 function initials(name: string) {
@@ -89,8 +88,12 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="profile-side-art">
-          <UsersSvg width={120} height={120} title="Community" />
+        <div
+          className="profile-side-art"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?fm=jpg&q=70&w=700&auto=format&fit=crop')" }}
+          role="img"
+          aria-label="Hand placing a ballot in a ballot box (photo by Element5 Digital on Unsplash)"
+        >
           <p className="profile-side-quote">Better decisions with your community.</p>
         </div>
       </main>
