@@ -1,6 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import UserMenu from "../components/UserMenu";
 import { useAuth } from "../auth/AuthContext";
 import { useToast } from "../components/Toast";
 import { Bell, ChevronRight, LogOut, KeyRound } from "lucide-react";
@@ -35,7 +33,6 @@ export default function ProfilePage() {
 
   return (
     <div className="app-shell">
-      <Sidebar />
       <main className="app-main profile-main">
         <div className="profile-content">
           <div className="page-head anim-fade-up">
@@ -46,7 +43,6 @@ export default function ProfilePage() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
-                <UserMenu />
               </div>
             </div>
           </div>
