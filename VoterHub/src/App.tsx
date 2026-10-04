@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/global.css";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProtectedRoute, GuestRoute } from "./auth/ProtectedRoute";
+import { ToastProvider } from "./components/Toast";
 
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -21,7 +22,8 @@ import ProfilePage from "./pages/ProfilePage";
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
         <Routes>
           {/* Public */}
           <Route path="/" element={<LandingPage />} />
@@ -54,6 +56,7 @@ export default function App() {
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
+      </ToastProvider>
     </AuthProvider>
   );
 }

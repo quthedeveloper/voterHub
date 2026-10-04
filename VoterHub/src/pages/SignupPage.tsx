@@ -4,6 +4,7 @@ import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { Typewriter } from  "react-simple-typewriter";
 import { useAuth } from "../auth/AuthContext";
 import { API_BASE, homeForRole } from "../lib/api";
+import { useToast } from "../components/Toast";
 import FormMessage from "../components/FormMessage";
 import { BallotBoxSvg } from "../components/illustrations";
 import "./AuthPages.css";
@@ -11,6 +12,7 @@ import "./AuthPages.css";
 export default function SignupPage() {
    const navigate = useNavigate();
    const { user, initialized } = useAuth();
+   const toast = useToast();
 
   const [role, setRole] = useState<"organizer" | "voter">("organizer");
   const [formData, setFormData] = useState({
@@ -64,11 +66,11 @@ export default function SignupPage() {
         setFormMessage("error");
         return;
       }
-      setFormMessage("success");
+      toast.success("Account created! Log in to continue.");
 
        setTimeout(() => {
         navigate("/login", { state: { registered: true } });
-      }, 1200);
+      }, 600);
     } catch (err) {
       setError("Could not reach the server. Check your connection and try again.");
       setFormMessage("error");
@@ -78,10 +80,10 @@ export default function SignupPage() {
   };
   return (
     <>
-      {formMessage && (
+      {formMessage === "error" && (
         <FormMessage
-          type={formMessage}
-          message={error || "Account created successfully!"}
+          type="error"
+          message={error}
         />
       )}
       <div className="split-auth">

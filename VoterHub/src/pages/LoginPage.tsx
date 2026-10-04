@@ -4,6 +4,7 @@ import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 import { useAuth } from "../auth/AuthContext";
 import { homeForRole } from "../lib/api";
+import { useToast } from "../components/Toast";
 import FormMessage from "../components/FormMessage";
 import { ShieldCheckSvg } from "../components/illustrations";
 import "../styles/global.css";
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, user, initialized } = useAuth();
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -50,11 +52,12 @@ export default function LoginPage() {
     try {
       const user = await login(submission.email, submission.password, submission.remember);
 
-      setFormMessage("success");
+      const firstName = user.fullName.split(" ")[0];
+      toast.success(`Welcome back, ${firstName}! You're logged in.`);
       setTimeout(() => {
         const from = (location.state as { from?: string } | null)?.from;
         navigate(from || homeForRole(user.role), { replace: true });
-      }, 800);
+      }, 600);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setFormMessage("error");
@@ -65,10 +68,10 @@ export default function LoginPage() {
 
   return (
     <>
-      {formMessage && (
+      {formMessage === "error" && (
         <FormMessage
-          type={formMessage}
-          message={error || "Logged in successfully!"}
+          type="error"
+          message={error}
           onDismiss={() => setFormMessage(null)}
         />
       )}

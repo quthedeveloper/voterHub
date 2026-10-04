@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { homeForRole, type SessionUser } from "../lib/api";
+import { LoginRequired, WrongRole } from "../components/AccessDenied";
 
 type Role = SessionUser["role"];
 
@@ -13,9 +14,9 @@ function RouteLoading() {
 }
 
 /**
- * Blocks unauthenticated visitors (redirects to /login, remembering where
- * they were headed). Pass `roles` to restrict to specific roles — anyone
- * signed in with the wrong role is sent to their own home page.
+ * Blocks unauthenticated visitors with a "you're not logged in" prompt
+ * (log in, sign up, or go back — their choice). Signed-in users with the
+ * wrong role get a clear warning and a redirect to their own home.
  */
 export function ProtectedRoute({ roles }: { roles?: Role[] }) {
   const { user, initialized } = useAuth();
@@ -23,10 +24,10 @@ export function ProtectedRoute({ roles }: { roles?: Role[] }) {
 
   if (!initialized) return <RouteLoading />;
   if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <LoginRequired from={location.pathname} />;
   }
   if (roles && !roles.includes(user.role)) {
-    return <Navigate to={homeForRole(user.role)} replace />;
+    return <WrongRole actualRole={user.role} />;
   }
   return <Outlet />;
 }

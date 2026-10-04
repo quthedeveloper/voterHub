@@ -1,4 +1,5 @@
 import Sidebar from "../components/Sidebar";
+import UserMenu from "../components/UserMenu";
 import { Search, Bell, QrCode, Copy, CheckCircle2, ArrowRight } from "lucide-react";
 import { ShareLinkSvg } from "../components/illustrations";
 import "./PollCreatedPage.css";
@@ -10,7 +11,10 @@ export default function PollCreatedPage() {
       <main className="app-main">
         <div className="dash-topbar">
           <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
-          <div className="dash-topbar-icons"><Bell size={18} /></div>
+          <div className="dash-topbar-icons">
+            <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+            <UserMenu />
+          </div>
         </div>
 
         <div className="card poll-created-card anim-fade-up">

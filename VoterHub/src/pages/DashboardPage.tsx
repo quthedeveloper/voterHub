@@ -1,4 +1,5 @@
 import Sidebar from "../components/Sidebar";
+import UserMenu from "../components/UserMenu";
 import { Search, Bell, MoreVertical, Archive, ArrowRight } from "lucide-react";
 import { BallotBoxSvg, ChartBarsSvg, UsersSvg } from "../components/illustrations";
 import "./DashboardPage.css";
@@ -28,7 +29,7 @@ export default function DashboardPage() {
           </div>
           <div className="dash-topbar-icons">
             <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
-            <div className="sidebar-avatar" style={{ width: 36, height: 36 }}>BQ</div>
+            <UserMenu />
           </div>
         </div>
 

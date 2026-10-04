@@ -1,0 +1,65 @@
+.access-denied-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--bg);
+  background-image: radial-gradient(circle at 20% 20%, #eaf1ff 0, transparent 42%),
+    radial-gradient(circle at 85% 80%, #eaf1ff 0, transparent 40%);
+}
+
+.access-denied-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 34px 30px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.access-denied-art {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.access-denied-art svg {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+.access-denied-card h1 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.access-denied-card .muted {
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 26px;
+}
+
+.access-denied-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.access-denied-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+.access-denied-back:hover { color: var(--ink); }
+.access-denied-back svg { transition: transform 180ms var(--ease-out); }
+.access-denied-back:hover svg { transform: translateX(-3px); }
