@@ -1,0 +1,71 @@
+/* Fixed to the viewport, not the form, so it can never end up positioned
+   off-screen by a parent's layout and never affects page structure. */
+.form-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -140%);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  max-width: 360px;
+  box-shadow: 0 12px 28px -10px rgba(16, 24, 40, 0.35);
+  z-index: 1000;
+}
+
+.form-message svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.form-message-error {
+  background: #fdf1f0;
+  color: var(--danger, #b4231f);
+}
+
+.form-message-success {
+  background: #eaf7f0;
+  color: #146c4c;
+}
+
+.form-message.is-entering {
+  animation: form-message-in 320ms cubic-bezier(0.22, 0.68, 0.32, 1) forwards;
+}
+
+.form-message.is-leaving {
+  animation: form-message-out 280ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes form-message-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -140%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes form-message-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -140%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-message.is-entering,
+  .form-message.is-leaving {
+    animation-duration: 0.01ms;
+  }
+}

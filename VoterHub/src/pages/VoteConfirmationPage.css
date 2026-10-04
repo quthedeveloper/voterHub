@@ -1,0 +1,21 @@
+.confirm-card { text-align: center; }
+.confirm-check {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.confirm-card h1 { font-size: 22px; margin-bottom: 6px; }
+.confirm-poll-chip {
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; margin: 24px 0;
+}
+.confirm-poll-chip-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.confirm-poll-chip strong { display: block; font-size: 13px; }
+.confirm-poll-chip span { font-size: 11px; color: var(--muted); }
+.confirm-back { font-size: 13px; color: var(--muted); }

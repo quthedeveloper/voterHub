@@ -1,0 +1,26 @@
+.create-poll-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 900px) { .create-poll-grid { grid-template-columns: 1.2fr 1fr; } }
+
+.create-poll-section-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+
+.create-poll-add-option {
+  display: flex; align-items: center; gap: 6px;
+  border: none; background: none; color: var(--accent);
+  font-size: 13px; font-weight: 600; padding: 4px 0;
+}
+
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.toggle-row:last-of-type { border-bottom: none; }
+
+.create-poll-schedule { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.create-poll-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }

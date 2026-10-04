@@ -1,0 +1,17 @@
+.poll-created-card { max-width: 640px; }
+.poll-created-check {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.poll-created-grid { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; margin-bottom: 24px; }
+.poll-created-ref {
+  display: flex; justify-content: space-between; align-items: center;
+  border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px;
+  font-size: 13px;
+}
+.poll-created-qr {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  border: 1px dashed var(--border); border-radius: 8px; padding: 16px 24px;
+}

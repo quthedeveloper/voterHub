@@ -1,0 +1,35 @@
+.dash-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.dash-search {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 14px; width: 280px; color: var(--muted);
+}
+.dash-search input { border: none; outline: none; font-size: 14px; flex: 1; }
+.dash-topbar-icons { display: flex; align-items: center; gap: 18px; color: var(--muted); }
+
+.dash-greeting { font-size: 24px; font-weight: 700; }
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.dash-stat-card { text-align: left; }
+.dash-stat-value { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+
+.dash-recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.dash-recent-header h2 { font-size: 17px; }
+
+.dash-poll-list { display: flex; flex-direction: column; gap: 10px; }
+.dash-poll-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 20px;
+}
+.dash-poll-info { flex: 1; min-width: 160px; }
+.dash-poll-title { font-weight: 600; font-size: 14px; }
+.dash-poll-metric { text-align: center; min-width: 70px; }
+.dash-poll-metric strong { display: block; font-size: 15px; }
+.dash-poll-metric span { font-size: 11px; color: var(--muted); }
