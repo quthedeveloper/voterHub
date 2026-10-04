@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  background-image: radial-gradient(circle at 15% 15%, #eaf1ff 0, transparent 42%),
-    radial-gradient(circle at 88% 85%, #eaf1ff 0, transparent 40%);
+  background-image: radial-gradient(circle at 15% 15%, var(--accent-soft) 0, transparent 42%),
+    radial-gradient(circle at 88% 85%, var(--accent-soft) 0, transparent 40%);
   padding: 40px 20px;
 }
 .voting-card {
@@ -13,7 +13,7 @@
   max-width: 500px;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 30px;
   box-shadow: var(--shadow-lg);
   animation: pop-in 480ms var(--ease-out) both;
@@ -32,7 +32,7 @@
 .voting-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
 .voting-option {
   display: flex; align-items: center; gap: 12px;
-  border: 1px solid var(--border); border-radius: 12px;
+  border: 1px solid var(--border); border-radius: 8px;
   padding: 13px 14px;
   cursor: pointer;
   transition: border-color 160ms ease, background-color 160ms ease, transform 160ms var(--ease-out), box-shadow 160ms ease;

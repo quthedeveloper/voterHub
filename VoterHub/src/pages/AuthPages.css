@@ -1,8 +1,8 @@
 .auth-title {
   font-size: clamp(30px, 4vw, 38px);
   font-weight: 700;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: -0.01em;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
   min-height: 1.3em;
 }
@@ -43,7 +43,7 @@
   align-items: flex-start;
   gap: 12px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 14px 16px;
   cursor: pointer;
   transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms var(--ease-out);
@@ -60,7 +60,7 @@
 
 /* Image side */
 .split-auth-image {
-  border-radius: 18px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .auth-image-badge {
@@ -73,7 +73,7 @@
   gap: 10px;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(6px);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 12px 16px;
   box-shadow: var(--shadow-md);
 }
@@ -101,14 +101,14 @@
 
 /* Auth submit button */
 .btn-primary-4 {
-  background: var(--ink);
+  background: var(--accent);
   color: #fff;
   padding: 15px 30px;
   font-size: 15px;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: var(--shadow-sm);
 }
-.btn-primary-4:hover { background: var(--ink-soft); box-shadow: var(--shadow-md); }
+.btn-primary-4:hover { background: var(--accent-deep); box-shadow: 0 8px 24px -8px rgba(232, 73, 43, 0.55); }
 
 /* Password visibility toggle */
 .password-field { position: relative; }

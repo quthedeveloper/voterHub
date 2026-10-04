@@ -35,7 +35,7 @@ export default function CreatePollPage() {
             <div>
               <p className="page-eyebrow">New poll</p>
               <h1 className="page-title">Create a Poll</h1>
-              <p className="page-sub">Set up your poll details and preferences.</p>
+              <p className="page-sub">Set up your poll.</p>
             </div>
           </div>
         </div>

@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import { CheckCircle2, FileText, Building2, Briefcase, GraduationCap, ShieldCheck, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import "@fontsource/poppins/600.css";
-import "@fontsource/poppins/700.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import "./LandingPage.css";
 import { FaqSection } from "../components/Faq.tsx";
 import GetStartedSection from "../components/GetStarted.tsx";

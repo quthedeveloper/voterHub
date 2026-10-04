@@ -1,8 +1,8 @@
 .results-page {
   min-height: 100vh;
   background: var(--bg);
-  background-image: radial-gradient(circle at 15% 10%, #eaf1ff 0, transparent 42%),
-    radial-gradient(circle at 88% 90%, #eaf1ff 0, transparent 40%);
+  background-image: radial-gradient(circle at 15% 10%, var(--accent-soft) 0, transparent 42%),
+    radial-gradient(circle at 88% 90%, var(--accent-soft) 0, transparent 40%);
   padding: 48px 20px;
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
 .results-card {
   width: 100%; max-width: 660px;
   background: #fff; border: 1px solid var(--border);
-  border-radius: 20px; padding: 30px;
+  border-radius: 10px; padding: 30px;
   box-shadow: var(--shadow-lg);
   animation: pop-in 480ms var(--ease-out) both;
 }

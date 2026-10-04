@@ -8,8 +8,8 @@ export default function VoteConfirmationPage() {
     <div className="voting-page">
       <div className="voting-card confirm-card">
         <div className="confirm-art"><VoteBurstSvg width={110} height={110} title="Vote submitted" /></div>
-        <h1>Vote Submitted!</h1>
-        <p className="muted">Your vote has been recorded successfully.</p>
+        <h1>Vote submitted</h1>
+        <p className="muted">Your vote has been recorded.</p>
 
         <div className="confirm-poll-chip">
           <div className="confirm-poll-chip-icon"><CheckCircle2 size={16} /></div>

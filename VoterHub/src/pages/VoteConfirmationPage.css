@@ -5,12 +5,12 @@
   margin-bottom: 20px;
   animation: pop-in 520ms var(--ease-out) both;
 }
-.confirm-art svg { filter: drop-shadow(0 12px 24px rgba(47, 111, 235, 0.25)); }
+.confirm-art svg { filter: drop-shadow(0 12px 24px rgba(232, 73, 43, 0.25)); }
 .confirm-card h1 { font-size: 26px; margin-bottom: 8px; letter-spacing: -0.02em; }
 .confirm-card > .muted { font-size: 14px; line-height: 1.6; }
 .confirm-poll-chip {
   display: flex; align-items: center; gap: 12px; text-align: left;
-  border: 1px solid var(--border); border-radius: 14px;
+  border: 1px solid var(--border); border-radius: 8px;
   padding: 14px 16px; margin: 26px 0 20px;
   background: var(--bg);
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms var(--ease-out);

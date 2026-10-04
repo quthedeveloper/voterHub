@@ -16,7 +16,7 @@
 .user-menu-trigger .sidebar-avatar { transition: box-shadow 160ms ease; }
 .user-menu-trigger:hover .sidebar-avatar,
 .user-menu-trigger.is-open .sidebar-avatar {
-  box-shadow: 0 0 0 3px rgba(47, 111, 235, 0.25), 0 2px 8px rgba(47, 111, 235, 0.4);
+  box-shadow: 0 0 0 3px rgba(232, 73, 43, 0.25), 0 2px 8px rgba(232, 73, 43, 0.4);
 }
 .user-menu-chevron {
   color: var(--muted);
@@ -31,7 +31,7 @@
   width: 260px;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 10px;
   box-shadow: var(--shadow-lg);
   padding: 8px;
   z-index: 200;

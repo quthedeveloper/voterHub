@@ -43,7 +43,7 @@
 
 .profile-side-art {
   flex: 1;
-  border-radius: 20px;
+  border-radius: 10px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -61,7 +61,7 @@
 .profile-side-quote {
   position: relative; z-index: 1;
   color: #fff;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Poppins", sans-serif;
   font-size: 22px;
   line-height: 1.4;
   padding: 32px;

@@ -20,7 +20,7 @@ export default function PollCreatedPage() {
         <div className="card poll-created-card anim-fade-up">
           <div className="poll-created-check"><CheckCircle2 size={22} /></div>
           <p className="page-eyebrow">Success</p>
-          <h1 className="page-title" style={{ marginBottom: 8 }}>Poll Created!</h1>
+          <h1 className="page-title" style={{ marginBottom: 8 }}>Poll created</h1>
           <p className="page-sub" style={{ marginBottom: 24 }}>
             Share the link or QR code below so voters can find your poll.
           </p>

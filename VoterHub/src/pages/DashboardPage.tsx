@@ -1,5 +1,6 @@
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
+import { useAuth } from "../auth/AuthContext";
 import { Search, Bell, MoreVertical, Archive, ArrowRight } from "lucide-react";
 import { BallotBoxSvg, ChartBarsSvg, UsersSvg } from "../components/illustrations";
 import "./DashboardPage.css";
@@ -18,6 +19,11 @@ const polls = [
 ];
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+  const firstName = user?.fullName.split(" ")[0] ?? "there";
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+
   return (
     <div className="app-shell">
       <Sidebar />
@@ -35,8 +41,8 @@ export default function DashboardPage() {
 
         <div className="page-head anim-fade-up">
           <p className="page-eyebrow">Overview</p>
-          <h1 className="page-title">Good afternoon, Bryan 👋</h1>
-          <p className="page-sub">Here's an overview of your polls and activity.</p>
+          <h1 className="page-title">{greeting}, {firstName}</h1>
+          <p className="page-sub">Here's what's happening with your polls.</p>
         </div>
 
         <div className="dash-stats">
