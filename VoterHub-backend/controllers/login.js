@@ -103,7 +103,8 @@ export async function logout(req, res) {
 // Returns the logged-in user's profile (requireAuth runs first and sets req.user)
 export async function me(req, res) {
   try {
-    return res.json({ user: await getProfile(req.user.id) });
+    const user = await getProfile(req.user.id);
+    return res.json({ Username: user.Username, Email: user.email, Role: user.role });
   } catch (err) {
     console.error("Me error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
