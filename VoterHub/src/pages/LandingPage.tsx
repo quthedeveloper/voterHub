@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import "./LandingPage.css";
 import {FaqSection} from "../components/Faq.tsx";
 import GetStartedSection from "../components/GetStarted.tsx";
+import UserMenu from "../components/UserMenu";
+import { useAuth } from "../auth/AuthContext";
 import { BallotBoxSvg, ChartBarsSvg, UsersSvg, DecoRingsSvg } from "../components/illustrations";
 
 function useCountUp(end: number, duration = 2000) {
@@ -39,6 +41,8 @@ function CountUpValue({ end, duration = 2000, decimals = 0, suffix = "", separat
 
 
 export default function LandingPage() {
+  const { user, initialized } = useAuth();
+
   return (
     <div className="landing">
       <nav className="landing-nav">
@@ -51,8 +55,16 @@ export default function LandingPage() {
           <a href="#faq">FAQ</a>
         </div>
         <div className="landing-nav-cta">
-          <Link to="/login" className="btn btn-outline btn-sm">Log In</Link>
-          <Link to="/signup" className="btn btn-primary btn-sm">Get Started</Link>
+          {!initialized ? (
+            <span className="landing-nav-placeholder" aria-hidden="true" />
+          ) : user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-outline btn-sm">Log In</Link>
+              <Link to="/signup" className="btn btn-primary btn-sm">Get Started</Link>
+            </>
+          )}
         </div>
       </nav>
 

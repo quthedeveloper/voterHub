@@ -19,7 +19,13 @@
   font-size: 24px;
   font-family: 'Playfair Display', serif;
 }
-.landing-nav-cta { display: flex; gap: 10px; }
+.landing-nav-cta { display: flex; gap: 10px; align-items: center; }
+/* Keeps the nav from jumping while the session restore is in flight */
+.landing-nav-placeholder {
+  display: inline-block;
+  width: 180px;
+  height: 34px;
+}
 
 /* ================= CONTAINER ================= */
 .landing-container {
