@@ -45,6 +45,7 @@ export async function login(req, res) {
     // Refresh token -> httpOnly cookie. Access token -> JSON body.
     setRefreshCookie(res, data.session.refresh_token, Boolean(remember));
 
+    console.log(`User ${user.email} logged in (remember=${Boolean(remember)})`);
     return res.json({
       accessToken: data.session.access_token,
       expiresIn: data.session.expires_in, // seconds

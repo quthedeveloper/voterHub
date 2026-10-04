@@ -1,12 +1,9 @@
-import Sidebar from "../components/Sidebar";
-import UserMenu from "../components/UserMenu";
-import { Bell, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
   return (
     <div className="app-shell">
-      <Sidebar />
       <main className="app-main profile-main">
         <div className="profile-content">
           <div className="page-head anim-fade-up">
@@ -15,10 +12,7 @@ export default function ProfilePage() {
                 <p className="page-eyebrow">Account</p>
                 <h1 className="page-title">Profile</h1>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
-                <UserMenu />
-              </div>
+              
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 .profile-main { display: flex; gap: 24px; max-width: none; }
-.profile-content { flex: 1; max-width: 620px; }
+.profile-content { flex: 1; max-width: 840px; }
 .profile-identity {
   display: flex; align-items: center; gap: 18px;
   background: linear-gradient(135deg, #ffffff 0%, #f2f6ff 100%);
