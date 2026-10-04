@@ -56,16 +56,16 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      <div className="landing-container">
-        {/* HERO — one box: background image + gradient overlay + text on top */}
-        <header
-          className="landing-hero"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1619059617660-d42ec4abe29a?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
-        >
-          <div className="landing-hero-overlay" />
-          <div className="landing-hero-deco anim-float" aria-hidden="true">
-            <DecoRingsSvg width={220} height={220} />
-          </div>
+      {/* HERO — full-bleed: background image + gradient overlay + text on top */}
+      <header
+        className="landing-hero"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1619059617660-d42ec4abe29a?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
+      >
+        <div className="landing-hero-overlay" />
+        <div className="landing-hero-deco anim-float" aria-hidden="true">
+          <DecoRingsSvg width={220} height={220} />
+        </div>
+        <div className="landing-hero-inner">
           <div className="landing-hero-content">
             <p className="landing-eyebrow">MODERN VOTING PLATFORM</p>
             <h1>
@@ -88,8 +88,10 @@ export default function LandingPage() {
               <Link to="/join-poll" className="btn btn-outline landing-outline-on-dark">Join a Poll</Link>
             </div>
           </div>
-        </header>
+        </div>
+      </header>
 
+      <div className="landing-container">
         {/* STATS — icon cards */}
         <div className="landing-stats-bar">
           <div className="landing-stat">
@@ -151,8 +153,8 @@ export default function LandingPage() {
           </div>
         </section>
         <FaqSection />
-        <GetStartedSection />
       </div>
+      <GetStartedSection />
 
       {/* FOOTER — wavy top edge */}
       <footer className="landing-footer">
