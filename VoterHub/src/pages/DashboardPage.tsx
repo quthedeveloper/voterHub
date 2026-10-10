@@ -100,15 +100,25 @@ export default function DashboardPage() {
         </div>
 
         <div className="dash-stats">
-          {stats.map((s, i) => (
-            <div key={s.label} className={`card card-hover dash-stat-card anim-fade-up-${Math.min(i + 1, 3)}`}>
-              <span className="icon-badge">{s.art}</span>
-              <div>
-                <p className="dash-stat-value">{loading ? "–" : s.value}</p>
-                <p className="dash-stat-label">{s.label}</p>
-              </div>
-            </div>
-          ))}
+          {loading
+            ? [0, 1, 2, 3].map((i) => (
+                <div key={i} className="card dash-stat-skeleton" aria-hidden="true">
+                  <span className="dash-skeleton-block icon" />
+                  <div className="dash-skeleton-lines">
+                    <span className="dash-skeleton-block" style={{ height: 22, width: "60%" }} />
+                    <span className="dash-skeleton-block" style={{ height: 13, width: "80%" }} />
+                  </div>
+                </div>
+              ))
+            : stats.map((s, i) => (
+                <div key={s.label} className={`card card-hover dash-stat-card anim-fade-up-${Math.min(i + 1, 3)}`}>
+                  <span className="icon-badge">{s.art}</span>
+                  <div>
+                    <p className="dash-stat-value">{s.value}</p>
+                    <p className="dash-stat-label">{s.label}</p>
+                  </div>
+                </div>
+              ))}
         </div>
 
         <div className="dash-recent-header">
@@ -121,7 +131,20 @@ export default function DashboardPage() {
         </div>
 
         {loading ? (
-          <div className="card"><p className="muted" style={{ padding: 8 }}>Loading your polls…</p></div>
+          <div className="dash-poll-list" aria-label="Loading polls">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="card dash-poll-skeleton" aria-hidden="true">
+                <div className="grow">
+                  <span className="dash-skeleton-block" style={{ height: 16, width: "45%" }} />
+                  <span className="dash-skeleton-block" style={{ height: 12, width: "30%" }} />
+                </div>
+                <span className="dash-skeleton-block hide-mobile" style={{ height: 32, width: 70 }} />
+                <span className="dash-skeleton-block hide-mobile" style={{ height: 32, width: 70 }} />
+                <span className="dash-skeleton-block" style={{ height: 24, width: 64, borderRadius: 999 }} />
+                <span className="dash-skeleton-block" style={{ height: 34, width: 96, borderRadius: 8 }} />
+              </div>
+            ))}
+          </div>
         ) : error ? (
           <div className="card">
             <p style={{ color: "var(--danger)", fontSize: 14 }}>{error}</p>

@@ -100,3 +100,33 @@
 @media (max-width: 720px) {
   .dash-result-name { min-width: 100px; }
 }
+
+/* Skeleton loaders */
+@keyframes dash-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.dash-skeleton-block {
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg) 25%, #e9e9e6 37%, var(--bg) 63%);
+  background-size: 800px 100%;
+  animation: dash-shimmer 1.4s ease-in-out infinite;
+}
+.dash-stat-skeleton {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px;
+}
+.dash-stat-skeleton .dash-skeleton-block.icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
+.dash-stat-skeleton .dash-skeleton-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.dash-poll-skeleton {
+  display: flex; align-items: center; gap: 24px;
+  padding: 20px;
+}
+.dash-poll-skeleton .grow { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+@media (max-width: 720px) {
+  .dash-poll-skeleton { gap: 12px; }
+  .dash-poll-skeleton .hide-mobile { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dash-skeleton-block { animation: none; }
+}
