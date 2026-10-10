@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
 import NotificationsBell from "../components/NotificationsBell";
-import { Search, QrCode, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react";
+import { Search, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react";
+import QRCode from "react-qr-code";
 import { ShareLinkSvg } from "../components/illustrations";
 import { useToast } from "../components/Toast";
 import "./PollCreatedPage.css";
@@ -98,7 +99,7 @@ export default function PollCreatedPage() {
               </div>
             </div>
             <div className="poll-created-qr">
-              <QrCode size={90} />
+              <QRCode value={shareLink} size={120} />
               <span className="muted" style={{ fontSize: 12 }}>Scan to join</span>
             </div>
           </div>
