@@ -277,7 +277,7 @@ img { display: block; max-width: 100%; }
 /* ---------- Misc shared ---------- */
 .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; font-family: 'Poppins', sans-serif; letter-spacing: -0.01em; }
 /* Wordmark links (logo -> landing page) shouldn't look like links */
-a.logo, a.sidebar-logo, a.vh-logo { text-decoration: none; color: inherit; }
+a.logo, a.sidebar-logo, a.vh-logo { text-decoration: none; }
 a.sidebar-logo:hover, a.logo:hover { text-decoration: none; }
 .logo .logo-mark {
   width: 26px; height: 26px; border-radius: 6px;
