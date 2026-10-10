@@ -45,14 +45,12 @@ export async function login(req, res) {
     // Refresh token -> httpOnly cookie. Access token -> JSON body.
     setRefreshCookie(res, data.session.refresh_token, Boolean(remember));
 
-    console.log(`User ${user.email} logged in (remember=${Boolean(remember)})`);
     return res.json({
       accessToken: data.session.access_token,
       expiresIn: data.session.expires_in, // seconds
       user,
     });
   } catch (err) {
-    console.error("Login error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -82,7 +80,6 @@ export async function refresh(req, res) {
       user: await getProfile(data.user.id),
     });
   } catch (err) {
-    console.error("Refresh error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -93,7 +90,6 @@ export async function logout(req, res) {
     const accessToken = getBearerToken(req);
     if (accessToken) await supabase.auth.admin.signOut(accessToken, "local");
   } catch (err) {
-    console.error("Logout error:", err);
   } finally {
     clearRefreshCookie(res);
     res.json({ message: "Logged out" });
@@ -103,10 +99,8 @@ export async function logout(req, res) {
 // Returns the logged-in user's profile (requireAuth runs first and sets req.user)
 export async function me(req, res) {
   try {
-    const user = await getProfile(req.user.id);
-    return res.json({ Username: user.Username, Email: user.email, Role: user.role });
+    return res.json({ user: await getProfile(req.user.id) });
   } catch (err) {
-    console.error("Me error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }

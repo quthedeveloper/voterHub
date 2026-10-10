@@ -16,8 +16,8 @@ export async function createNotification({ userId, type, title, body, pollId }) 
       read: false,
     });
     if (error) throw error;
-  } catch (err) {
-    console.warn("[notifications:skipped]", err?.message || err);
+  } catch {
+    // notifications table may not exist yet — skip silently
   }
 }
 
@@ -29,7 +29,6 @@ export async function registeredProfiles(emails) {
     if (error) throw error;
     return new Map((data ?? []).map((p) => [p.email.toLowerCase(), p.id]));
   } catch (err) {
-    console.warn("[notifications:lookup-failed]", err?.message || err);
     return new Map();
   }
 }

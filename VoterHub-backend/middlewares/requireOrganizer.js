@@ -18,7 +18,6 @@ export function requireOrganizer(req, res, next) {
       req.profile = data;
       next();
     } catch (err) {
-      console.error("Organizer middleware error:", err);
       return res.status(500).json({ error: "Something went wrong. Please try again." });
     }
   });

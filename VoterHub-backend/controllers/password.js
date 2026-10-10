@@ -20,7 +20,6 @@ export async function forgotPassword(req, res) {
     });
     return res.json(done);
   } catch (err) {
-    console.error("Forgot password error:", err);
     return res.json({ message: "If an account exists for that email, a reset link is on its way." });
   }
 }
@@ -53,7 +52,6 @@ export async function resetPassword(req, res) {
 
     return res.json({ message: "Password updated. You can now log in." });
   } catch (err) {
-    console.error("Reset password error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -95,7 +93,6 @@ export async function changePassword(req, res) {
 
     return res.json({ ok: true });
   } catch (err) {
-    console.error("Change password error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }

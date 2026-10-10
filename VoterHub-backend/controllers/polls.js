@@ -106,7 +106,6 @@ async function notifyInvitees({ poll, organizerName, emails }) {
       })
     );
   } catch (err) {
-    console.error("Invite notification error:", err);
   }
 }
 
@@ -202,12 +201,11 @@ export async function createPoll(req, res) {
         poll: shaped,
         organizerName: req.profile.full_name || "An organizer",
         emails,
-      }).catch((err) => console.error("Invite notification error:", err));
+      }).catch(() => {});
     }
 
     return res.status(201).json({ poll: shaped });
   } catch (err) {
-    console.error("Create poll error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -221,7 +219,6 @@ export async function getPollByReference(req, res) {
     if (error || !data) return res.status(404).json({ error: "No poll found with that reference." });
     return res.json({ poll: shapePoll(data, await getOptions(data.id)) });
   } catch (err) {
-    console.error("Get poll error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -233,7 +230,6 @@ export async function getPollPublic(req, res) {
     if (!poll) return res.status(404).json({ error: "Poll not found." });
     return res.json({ poll: shapePoll(poll, await getOptions(poll.id)) });
   } catch (err) {
-    console.error("Get poll error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -268,7 +264,6 @@ export async function checkEligibility(req, res) {
     if (!data) return res.json({ restricted: true, eligible: false, hasVoted: false });
     return res.json({ restricted: true, eligible: true, hasVoted: !!data.has_voted });
   } catch (err) {
-    console.error("Eligibility check error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -386,7 +381,6 @@ export async function castVote(req, res) {
 
     return res.status(201).json({ ok: true });
   } catch (err) {
-    console.error("Cast vote error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -417,7 +411,6 @@ export async function listEligibleVoters(req, res) {
       voted: voters.filter((v) => v.hasVoted).length,
     });
   } catch (err) {
-    console.error("List eligible voters error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -453,12 +446,11 @@ export async function addEligibleVoters(req, res) {
         poll: shapePoll(full ?? poll, []),
         organizerName: req.profile.full_name || "An organizer",
         emails: fresh,
-      }).catch((err) => console.error("Invite notification error:", err));
+      }).catch(() => {});
     }
 
     return res.status(201).json({ added: fresh.length, total });
   } catch (err) {
-    console.error("Add eligible voters error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -490,7 +482,6 @@ export async function removeEligibleVoter(req, res) {
     await supabase.from("polls").update({ eligible_voters_count: count ?? 0 }).eq("id", poll.id);
     return res.json({ ok: true, total: count ?? 0 });
   } catch (err) {
-    console.error("Remove eligible voter error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -549,7 +540,6 @@ export async function getResults(req, res) {
       turnoutPct: stats.turnoutPct,
     });
   } catch (err) {
-    console.error("Get results error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -572,7 +562,6 @@ export async function listMyPolls(req, res) {
     );
     return res.json({ polls: items });
   } catch (err) {
-    console.error("List polls error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }

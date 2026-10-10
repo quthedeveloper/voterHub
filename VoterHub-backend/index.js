@@ -63,10 +63,16 @@ app.use("/api", (_req, res) => res.status(404).json({ error: "Not found" }));
 
 // Generic error handler (catches anything that slips past try/catch)
 app.use((err, _req, res, _next) => {
-  console.error("Unhandled error:", err);
   res.status(500).json({ error: "Something went wrong. Please try again." });
 });
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-app.listen(PORT, () => console.log(`voterHub backend running on port ${PORT}`));
+// Confirm database connectivity before accepting traffic.
+const { error: dbError } = await supabase.from("profiles").select("id", { head: true }).limit(1);
+if (dbError) {
+  console.error("Could not connect to the database:", dbError.message);
+  process.exit(1);
+}
+
+app.listen(PORT, () => console.log("Connected to database"));

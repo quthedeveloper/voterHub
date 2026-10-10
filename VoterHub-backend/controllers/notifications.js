@@ -33,7 +33,6 @@ export async function listNotifications(req, res) {
     if (error) throw error;
     return res.json({ notifications: (data ?? []).map(shape) });
   } catch (err) {
-    console.error("List notifications error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -50,7 +49,6 @@ export async function markRead(req, res) {
     if (error) throw error;
     return res.json({ ok: true });
   } catch (err) {
-    console.error("Mark notification read error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
@@ -67,7 +65,6 @@ export async function markAllRead(req, res) {
     if (error) throw error;
     return res.json({ ok: true });
   } catch (err) {
-    console.error("Mark all notifications read error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }

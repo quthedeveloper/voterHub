@@ -18,7 +18,6 @@ export async function requireAuth(req, res, next) {
     req.user = data.user;
     next();
   } catch (err) {
-    console.error("Auth middleware error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }

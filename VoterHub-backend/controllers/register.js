@@ -43,7 +43,6 @@ export async function register(req, res) {
     if (profileError) {
       // Roll back so you don't leave a login with no profile
       await supabase.auth.admin.deleteUser(user.id);
-      console.error("Profile creation failed:", profileError.message);
       return res.status(500).json({ error: "Could not create your account. Please try again." });
     }
 
@@ -53,7 +52,6 @@ export async function register(req, res) {
     });
   } catch (err) {
     // Anything unexpected (network failure, bad config, a thrown error)
-    console.error("Register error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
