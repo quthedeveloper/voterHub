@@ -486,6 +486,27 @@ export async function removeEligibleVoter(req, res) {
   }
 }
 
+// PATCH /api/polls/:id — organizer-owner only. Updates the poll's status
+// ("active" to reopen, "closed" to end voting).
+export async function updatePoll(req, res) {
+  try {
+    const poll = await getOwnedPoll(req.params.id, req.profile.id);
+    if (!poll) return res.status(404).json({ error: "Poll not found." });
+
+    const status = req.body?.status;
+    if (status !== "active" && status !== "closed") {
+      return res.status(400).json({ error: "Status must be 'active' or 'closed'." });
+    }
+    const { error } = await supabase.from("polls").update({ status }).eq("id", poll.id);
+    if (error) throw error;
+
+    const updated = await getPoll(poll.id);
+    return res.json({ poll: shapePoll(updated, await getOptions(poll.id)) });
+  } catch (err) {
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
+}
+
 // GET /api/polls/:id/results — public when the poll shows results, else organizer-only.
 async function getPollStats(poll) {
   const options = await getOptions(poll.id);

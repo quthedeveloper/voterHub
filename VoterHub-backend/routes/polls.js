@@ -4,6 +4,7 @@ import { authLimiter, voteLimiter } from "../middlewares/rateLimits.js";
 import {
   createPoll,
   listMyPolls,
+  updatePoll,
   getPollByReference,
   getPollPublic,
   checkEligibility,
@@ -19,6 +20,7 @@ const PollsRouter = Router();
 // Organizer-only
 PollsRouter.post("/polls", authLimiter, requireOrganizer, createPoll);
 PollsRouter.get("/polls", requireOrganizer, listMyPolls);
+PollsRouter.patch("/polls/:id", requireOrganizer, updatePoll);
 PollsRouter.get("/polls/:id/eligible-voters", requireOrganizer, listEligibleVoters);
 PollsRouter.post("/polls/:id/eligible-voters", authLimiter, requireOrganizer, addEligibleVoters);
 PollsRouter.delete("/polls/:id/eligible-voters/:evId", requireOrganizer, removeEligibleVoter);

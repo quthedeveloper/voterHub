@@ -154,6 +154,12 @@ export const pollsApi = {
   listMine(): Promise<{ polls: DashboardPoll[] }> {
     return apiJson("/api/polls");
   },
+  update(id: string, payload: { status: "active" | "closed" }): Promise<{ poll: Poll }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 /* ---------------- Notifications ---------------- */

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
 import NotificationsBell from "../components/NotificationsBell";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { pollsApi } from "../lib/api";
 import "./CreatePollPage.css";
 
@@ -74,8 +74,7 @@ export default function CreatePollPage() {
       <Sidebar />
       <main className="app-main">
         <div className="dash-topbar">
-          <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
-          <div className="dash-topbar-icons">
+          <div className="dash-topbar-icons" style={{ marginLeft: "auto" }}>
             <NotificationsBell />
             <UserMenu />
           </div>

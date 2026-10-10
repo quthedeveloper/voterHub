@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
 import NotificationsBell from "../components/NotificationsBell";
-import { Search, Share2, Pause, XCircle, Edit3, Plus, Trash2, Check, Minus } from "lucide-react";
+import { Share2, XCircle, Plus, Trash2, Check, Minus, RotateCcw } from "lucide-react";
 import { pollsApi, type Poll, type EligibleVoter } from "../lib/api";
 import { useToast } from "../components/Toast";
 import Skeleton from "../components/Skeleton";
@@ -31,6 +31,7 @@ export default function PollDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [newEmails, setNewEmails] = useState("");
   const [adding, setAdding] = useState(false);
+  const [toggling, setToggling] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const pollId = state.pollId;
@@ -58,6 +59,44 @@ export default function PollDetailsPage() {
       .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const sharePoll = async () => {
+    if (!poll) return;
+    const link = `${window.location.origin}/join-poll?ref=${encodeURIComponent(poll.reference)}`;
+    try {
+      await navigator.clipboard.writeText(link);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = link;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    toast.success("Share link copied.");
+  };
+
+  const setStatus = async (status: "active" | "closed") => {
+    if (!poll || toggling) return;
+    setToggling(true);
+    try {
+      await pollsApi.update(poll.id, { status });
+      await load(poll.id);
+      toast.success(status === "closed" ? "Poll closed. Voting is over." : "Poll reopened.");
+    } catch {
+      toast.error("Could not update the poll. Please try again.");
+    } finally {
+      setToggling(false);
+    }
+  };
+
+  const closePoll = () => {
+    if (window.confirm("Close this poll? Voters won't be able to vote anymore.")) {
+      void setStatus("closed");
+    }
+  };
+
+  const reopenPoll = () => void setStatus("active");
 
   if (!pollId) {
     return (
@@ -112,8 +151,7 @@ export default function PollDetailsPage() {
       <Sidebar />
       <main className="app-main">
         <div className="dash-topbar">
-          <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
-          <div className="dash-topbar-icons">
+          <div className="dash-topbar-icons" style={{ marginLeft: "auto" }}>
             <NotificationsBell />
             <UserMenu />
           </div>
@@ -163,7 +201,7 @@ export default function PollDetailsPage() {
                     REF: {poll.reference}{poll.endDate ? ` · Ends ${poll.endDate}` : ""}
                   </p>
                 </div>
-                <button className="btn btn-outline btn-sm"><Share2 size={14} /> Share Poll</button>
+                <button className="btn btn-outline btn-sm" onClick={sharePoll}><Share2 size={14} /> Share Poll</button>
               </div>
             </div>
 
@@ -177,9 +215,15 @@ export default function PollDetailsPage() {
               <div className="card anim-fade-up-2">
                 <h3 className="section-title">Poll Controls</h3>
                 <div className="poll-details-controls">
-                  <button className="btn btn-danger btn-full"><XCircle size={15} /> Close Poll</button>
-                  <button className="btn btn-outline btn-full"><Pause size={15} /> Pause Voting</button>
-                  <button className="btn btn-outline btn-full"><Edit3 size={15} /> Edit Poll</button>
+                  {poll.open ? (
+                    <button className="btn btn-danger btn-full" disabled={toggling} onClick={closePoll}>
+                      <XCircle size={15} /> {toggling ? "Closing…" : "Close Poll"}
+                    </button>
+                  ) : (
+                    <button className="btn btn-outline btn-full" disabled={toggling} onClick={reopenPoll}>
+                      <RotateCcw size={15} /> {toggling ? "Reopening…" : "Reopen Poll"}
+                    </button>
+                  )}
                 </div>
 
                 <h3 className="section-title" style={{ marginTop: 24 }}>Eligible Voters</h3>
