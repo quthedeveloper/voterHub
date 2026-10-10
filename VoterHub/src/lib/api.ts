@@ -150,6 +150,9 @@ export const pollsApi = {
       method: "DELETE",
     });
   },
+  listMine(): Promise<{ polls: DashboardPoll[] }> {
+    return apiJson("/api/polls");
+  },
 };
 
 /* ---------------- Notifications ---------------- */
@@ -163,6 +166,12 @@ export type Notification = {
   pollReference: string | null;
   read: boolean;
   createdAt: string;
+};
+
+export type DashboardPoll = Omit<Poll, "options"> & {
+  options: { id: string; name: string; tagline: string | null; votes: number; pct: number }[];
+  totalVotes: number;
+  turnoutPct: number | null;
 };
 
 export const notificationsApi = {

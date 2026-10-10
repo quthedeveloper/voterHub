@@ -55,3 +55,48 @@
   .dash-poll-metric { display: none; }
   .app-main { padding: 20px 16px; }
 }
+
+/* Expandable results on dashboard poll rows */
+.dash-poll-card { padding: 0; overflow: hidden; }
+.dash-poll-card .dash-poll-row { padding: 16px 20px; }
+.dash-view-all {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: none; border: none; cursor: pointer;
+  color: var(--accent); font-size: 13px; font-weight: 600; font-family: inherit;
+}
+.dash-view-all:hover { text-decoration: underline; }
+.chev-open { transform: rotate(180deg); }
+.dash-poll-row .btn .chev-open, .dash-poll-row .btn svg { transition: transform 180ms ease; }
+
+.dash-results {
+  border-top: 1px solid var(--border);
+  padding: 16px 20px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  animation: dash-results-in 240ms var(--ease-out) both;
+}
+@keyframes dash-results-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+.dash-result-row {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px;
+}
+.dash-result-name { min-width: 140px; font-weight: 600; }
+.dash-result-votes { min-width: 36px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dash-bar-track {
+  flex: 1; height: 8px; border-radius: 999px;
+  background: var(--bg); overflow: hidden;
+}
+.dash-bar-fill {
+  height: 100%; border-radius: 999px;
+  background: var(--accent);
+  width: 0;
+  animation: dash-bar-grow 700ms var(--ease-out) both;
+}
+@keyframes dash-bar-grow { from { width: 0; } }
+.dash-result-pct { min-width: 48px; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 720px) {
+  .dash-result-name { min-width: 100px; }
+}

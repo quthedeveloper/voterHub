@@ -494,6 +494,31 @@ export async function removeEligibleVoter(req, res) {
 }
 
 // GET /api/polls/:id/results — public when the poll shows results, else organizer-only.
+async function getPollStats(poll) {
+  const options = await getOptions(poll.id);
+  const { data: votes, error } = await supabase.from("Votes").select("option_id").eq("poll_id", poll.id);
+  if (error) throw error;
+
+  const counts = {};
+  for (const v of votes ?? []) counts[v.option_id] = (counts[v.option_id] ?? 0) + 1;
+  const totalVotes = (votes ?? []).length;
+  const results = options.map((o) => ({
+    id: o.id,
+    name: o.name,
+    tagline: o.tagline,
+    votes: counts[o.id] ?? 0,
+    pct: totalVotes > 0 ? Math.round(((counts[o.id] ?? 0) / totalVotes) * 1000) / 10 : 0,
+  }));
+  const eligible = Number(poll.eligible_voters_count ?? 0);
+
+  return {
+    options: results,
+    totalVotes,
+    eligibleVotersCount: eligible,
+    turnoutPct: eligible > 0 ? Math.round((totalVotes / eligible) * 1000) / 10 : null,
+  };
+}
+
 export async function getResults(req, res) {
   try {
     const poll = await getPoll(req.params.id);
@@ -513,30 +538,39 @@ export async function getResults(req, res) {
       return res.status(403).json({ error: "Results are not public for this poll." });
     }
 
-    const options = await getOptions(poll.id);
-    const { data: votes, error } = await supabase.from("Votes").select("option_id").eq("poll_id", poll.id);
-    if (error) throw error;
-
-    const counts = {};
-    for (const v of votes ?? []) counts[v.option_id] = (counts[v.option_id] ?? 0) + 1;
-    const totalVotes = (votes ?? []).length;
-    const results = options.map((o) => ({
-      id: o.id,
-      name: o.name,
-      tagline: o.tagline,
-      votes: counts[o.id] ?? 0,
-      pct: totalVotes > 0 ? Math.round(((counts[o.id] ?? 0) / totalVotes) * 1000) / 10 : 0,
-    }));
-    const eligible = Number(poll.eligible_voters_count ?? 0);
+    const stats = await getPollStats(poll);
 
     return res.json({
-      options: results,
-      totalVotes,
-      eligibleVotersCount: eligible,
-      turnoutPct: eligible > 0 ? Math.round((totalVotes / eligible) * 1000) / 10 : null,
+      options: stats.options,
+      totalVotes: stats.totalVotes,
+      eligibleVotersCount: stats.eligibleVotersCount,
+      turnoutPct: stats.turnoutPct,
     });
   } catch (err) {
     console.error("Get results error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
+}
+
+// GET /api/polls — the signed-in organizer's polls, each with live stats + results
+export async function listMyPolls(req, res) {
+  try {
+    const { data: polls, error } = await supabase
+      .from("polls")
+      .select("*")
+      .eq("creator_id", req.profile.id)
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+
+    const items = await Promise.all(
+      (polls ?? []).map(async (p) => {
+        const stats = await getPollStats(p);
+        return { ...shapePoll(p, await getOptions(p.id)), ...stats };
+      })
+    );
+    return res.json({ polls: items });
+  } catch (err) {
+    console.error("List polls error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
