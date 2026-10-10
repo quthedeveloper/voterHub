@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
 import NotificationsBell from "../components/NotificationsBell";
-import { Search, ArrowUpDown, Plus, ChevronDown } from "lucide-react";
+import { Search, ArrowUpDown, Plus } from "lucide-react";
 import { pollsApi, type DashboardPoll } from "../lib/api";
 import Skeleton from "../components/Skeleton";
 import "./MyPollsPage.css";
@@ -33,7 +33,6 @@ export default function MyPollsPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("newest");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -186,7 +185,6 @@ export default function MyPollsPage() {
         ) : (
           <div className="mypolls-list">
             {visible.map((p, idx) => {
-              const expanded = expandedId === p.id;
               const restricted = p.eligibleVotersCount > 0;
               return (
                 <div key={p.id} className={`card mypolls-card anim-fade-up-${Math.min((idx % 3) + 1, 3)}`}>
@@ -217,10 +215,9 @@ export default function MyPollsPage() {
                       <button
                         type="button"
                         className="btn btn-outline btn-sm"
-                        onClick={() => setExpandedId(expanded ? null : p.id)}
-                        aria-expanded={expanded}
+                        onClick={() => navigate("/results", { state: { pollId: p.id } })}
                       >
-                        Results <ChevronDown size={14} className={expanded ? "chev-open" : ""} />
+                        Results
                       </button>
                       <button
                         type="button"
@@ -231,28 +228,6 @@ export default function MyPollsPage() {
                       </button>
                     </div>
                   </div>
-
-                  {expanded && (
-                    <div className="mypolls-results">
-                      {p.options.length === 0 ? (
-                        <p className="muted" style={{ fontSize: 13 }}>No options on this poll.</p>
-                      ) : (
-                        p.options.map((o, i) => (
-                          <div key={o.id} className="mypolls-result-row">
-                            <strong className="mypolls-result-name">{o.name}</strong>
-                            <span className="mypolls-result-votes">{o.votes}</span>
-                            <div className="mypolls-bar-track">
-                              <div
-                                className="mypolls-bar-fill"
-                                style={{ width: `${o.pct}%`, animationDelay: `${i * 120}ms` }}
-                              />
-                            </div>
-                            <span className="mypolls-result-pct">{o.pct}%</span>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  )}
                 </div>
               );
             })}

@@ -71,27 +71,6 @@
 .mypolls-metrics { display: flex; gap: 20px; }
 .mypolls-actions { display: flex; gap: 8px; align-items: center; }
 
-.mypolls-results {
-  border-top: 1px solid var(--border);
-  padding: 16px 20px 18px;
-  display: flex; flex-direction: column; gap: 10px;
-  animation: mypolls-results-in 240ms var(--ease-out) both;
-}
-@keyframes mypolls-results-in {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: none; }
-}
-.mypolls-result-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
-.mypolls-result-name { min-width: 140px; font-weight: 600; }
-.mypolls-result-votes { min-width: 36px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
-.mypolls-bar-track { flex: 1; height: 8px; border-radius: 999px; background: var(--bg); overflow: hidden; }
-.mypolls-bar-fill {
-  height: 100%; border-radius: 999px; background: var(--accent);
-  width: 0; animation: mypolls-bar-grow 700ms var(--ease-out) both;
-}
-@keyframes mypolls-bar-grow { from { width: 0; } }
-.mypolls-result-pct { min-width: 48px; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
-
 @media (max-width: 860px) {
   .mypolls-row { flex-wrap: wrap; gap: 12px; }
   .mypolls-metrics { display: none; }
