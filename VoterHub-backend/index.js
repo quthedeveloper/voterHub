@@ -49,7 +49,9 @@ if (missing.length > 0) {
 
 // Routes
 import SessionRouter from "./routes/session.js";
+import PollsRouter from "./routes/polls.js";
 app.use("/api", SessionRouter);
+app.use("/api", PollsRouter);
 
 // Health check (no auth)
 app.get("/health", (_req, res) => res.json({ ok: true }));

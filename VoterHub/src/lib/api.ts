@@ -47,6 +47,111 @@ export function homeForRole(role: SessionUser["role"]) {
   return role === "organizer" ? "/dashboard" : "/join-poll";
 }
 
+/* ---------------- Polls & eligible voters ---------------- */
+
+export type PollOption = { id: string; name: string; tagline: string | null };
+
+export type Poll = {
+  id: string;
+  reference: string;
+  title: string;
+  description: string | null;
+  question: string;
+  status: string;
+  oneVotePerVoter: boolean;
+  requireLogin: boolean;
+  showResults: boolean;
+  pinRequired: boolean;
+  startDate: string | null;
+  endDate: string | null;
+  eligibleVotersCount: number;
+  open: boolean;
+  options: PollOption[];
+};
+
+export type CreatePollPayload = {
+  title: string;
+  description?: string;
+  question: string;
+  options: { name: string; tagline?: string }[];
+  settings: {
+    oneVotePerVoter: boolean;
+    requireLogin: boolean;
+    showResults: boolean;
+    votingPin?: string;
+    startDate?: string;
+    endDate?: string;
+  };
+  eligibleEmails: string[];
+};
+
+export type EligibleVoter = { id: string; email: string; hasVoted: boolean };
+
+async function apiJson(path: string, options: RequestInit = {}) {
+  const res = await apiFetch(path, options);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(data?.error || "Something went wrong. Please try again.") as Error & {
+      status: number;
+    };
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+export const pollsApi = {
+  create(payload: CreatePollPayload): Promise<{ poll: Poll }> {
+    return apiJson("/api/polls", { method: "POST", body: JSON.stringify(payload) });
+  },
+  byReference(ref: string): Promise<{ poll: Poll }> {
+    return apiJson(`/api/polls/reference/${encodeURIComponent(ref)}`);
+  },
+  byId(id: string): Promise<{ poll: Poll }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}`);
+  },
+  eligibility(
+    id: string,
+    params: { email?: string; pin?: string }
+  ): Promise<{ restricted: boolean; eligible: boolean; hasVoted: boolean }> {
+    const q = new URLSearchParams();
+    if (params.email) q.set("email", params.email);
+    if (params.pin) q.set("pin", params.pin);
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/eligibility?${q.toString()}`);
+  },
+  vote(
+    id: string,
+    body: { optionId: string; email?: string; pin?: string; anonymousToken?: string }
+  ): Promise<{ ok: boolean }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/vote`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  },
+  results(id: string): Promise<{
+    options: (PollOption & { votes: number; pct: number })[];
+    totalVotes: number;
+    eligibleVotersCount: number;
+    turnoutPct: number | null;
+  }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/results`);
+  },
+  eligibleVoters(id: string): Promise<{ voters: EligibleVoter[]; total: number; voted: number }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/eligible-voters`);
+  },
+  addEligibleVoters(id: string, emails: string[]): Promise<{ added: number; total: number }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/eligible-voters`, {
+      method: "POST",
+      body: JSON.stringify({ emails }),
+    });
+  },
+  removeEligibleVoter(id: string, evId: string): Promise<{ ok: boolean; total: number }> {
+    return apiJson(`/api/polls/${encodeURIComponent(id)}/eligible-voters/${encodeURIComponent(evId)}`, {
+      method: "DELETE",
+    });
+  },
+};
+
 /** Silent refresh using the httpOnly cookie. Returns the new session or null. */
 export async function refreshSession(): Promise<Session | null> {
   try {

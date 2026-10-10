@@ -38,7 +38,7 @@
 .results-bar-track { height: 10px; border-radius: 999px; background: #eef0f4; overflow: hidden; }
 .results-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #5b8bf5);
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
   border-radius: 999px;
   animation: grow-bar 900ms var(--ease-out) both;
 }
