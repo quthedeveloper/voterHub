@@ -101,10 +101,10 @@ export default function JoinPollPage() {
           className="join-poll-hero"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?fm=jpg&q=70&w=700&auto=format&fit=crop')" }}
         >
-          <div className="logo" style={{ color: "#fff" }}>
+          <Link to="/" className="logo" style={{ color: "#fff" }} aria-label="VoteHub home">
             <span className="logo-mark" style={{ background: "#fff", color: "var(--ink)" }}>✓</span>
             VoteHub
-          </div>
+          </Link>
           <div className="join-poll-hero-art">
             <ShieldCheckSvg width={44} height={44} title="Secure poll access" />
           </div>

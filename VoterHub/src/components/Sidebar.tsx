@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, ListChecks, PlusCircle, BarChart3, Settings, CheckCircle2 } from "lucide-react";
+import { useAuth } from "../auth/AuthContext";
 import "./Sidebar.css";
 
 const links = [
@@ -10,15 +11,28 @@ const links = [
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 export default function Sidebar() {
   const location = useLocation();
+  const { user } = useAuth();
+  const name = user?.fullName ?? "Organizer";
+  const roleLabel = user?.role === "organizer" ? "Organizer" : "Voter";
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">
+      <Link to="/" className="sidebar-logo" aria-label="VoteHub home">
         <span className="logo-mark"><CheckCircle2 size={16} /></span>
         <span>VoteHub</span>
-      </div>
+      </Link>
 
       <nav className="sidebar-nav">
         {links.map(({ to, label, icon: Icon }) => (
@@ -34,10 +48,10 @@ export default function Sidebar() {
       </nav>
 
       <Link to="/profile" className="sidebar-user">
-        <div className="sidebar-avatar">BQ</div>
+        <div className="sidebar-avatar">{initials(name)}</div>
         <div>
-          <p className="sidebar-user-name">Bryan Quartey</p>
-          <p className="sidebar-user-role">Organizer</p>
+          <p className="sidebar-user-name">{name}</p>
+          <p className="sidebar-user-role">{roleLabel}</p>
         </div>
       </Link>
     </aside>

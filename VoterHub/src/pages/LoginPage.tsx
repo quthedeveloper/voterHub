@@ -79,10 +79,10 @@ export default function LoginPage() {
       <div className="split-auth">
         <div className="split-auth-form">
           <div className="split-auth-form-inner">
-            <div className="logo" style={{ marginBottom: 40 }}>
+            <Link to="/" className="logo" style={{ marginBottom: 40 }} aria-label="VoteHub home">
               <span><CheckCircle2 size={16} /></span>
               VoteHub
-            </div>
+            </Link>
 
             <h1 className="auth-title">
               <Typewriter

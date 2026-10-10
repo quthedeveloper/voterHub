@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Navigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { CheckCircle2, Clock } from "lucide-react";
 import { pollsApi, type Poll } from "../lib/api";
 import Skeleton from "../components/Skeleton";
@@ -71,10 +71,10 @@ export default function VotingPage() {
   return (
     <div className="voting-page">
       <div className="voting-card">
-        <div className="logo" style={{ marginBottom: 20 }}>
+        <Link to="/" className="logo" style={{ marginBottom: 20 }} aria-label="VoteHub home">
           <span className="logo-mark"><CheckCircle2 size={16} /></span>
           VoteHub
-        </div>
+        </Link>
 
         {loading ? (
           <div aria-label="Loading ballot" style={{ width: "100%" }}>

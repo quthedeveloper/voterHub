@@ -52,10 +52,10 @@ export default function LandingPage() {
       {/* NAV */}
       <nav className="vh-nav">
         <div className="vh-nav-inner">
-          <div className="logo vh-logo">
+          <Link to="/" className="logo vh-logo" aria-label="VoteHub home">
             <CheckCircle2 size={24} />
             VoteHub
-          </div>
+          </Link>
           <div className="vh-nav-links">
             <a href="#how-it-works">How it works</a>
             <a href="#sponsors">Sponsors</a>
@@ -192,10 +192,10 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer className="vh-footer">
         <div className="vh-inner">
-          <div className="logo vh-logo">
+          <Link to="/" className="logo vh-logo" aria-label="VoteHub home">
             <CheckCircle2 size={24} />
             VoteHub
-          </div>
+          </Link>
           <p className="vh-footer-lead">Trusted by teams, schools, and organizations</p>
           <div className="vh-footer-icons">
             <span><Building2 size={16} /> Organizations</span>

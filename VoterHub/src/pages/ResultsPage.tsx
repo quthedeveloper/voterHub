@@ -87,7 +87,7 @@ export default function ResultsPage() {
     <div className="results-page">
       <div className="results-card">
         <div className="results-header">
-          <div className="logo"><span className="logo-mark"><CheckCircle2 size={16} /></span>VoteHub</div>
+          <Link to="/" className="logo" aria-label="VoteHub home"><span className="logo-mark"><CheckCircle2 size={16} /></span>VoteHub</Link>
           {poll?.open && (
             <span className="badge badge-active"><span className="results-live-dot" />Live Results</span>
           )}
