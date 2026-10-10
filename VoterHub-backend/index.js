@@ -50,7 +50,9 @@ if (missing.length > 0) {
 
 // Routes
 import SessionRouter from "./routes/session.js";
+import PollsRouter from "./routes/polls.js";
 app.use("/api", SessionRouter);
+app.use("/api", PollsRouter);
 app.use("/api", DashboardRouter);
 
 // Health check (no auth)

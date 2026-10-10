@@ -23,6 +23,20 @@ Health check: `GET /health`
 - `POST /api/forgot-password` — always responds 200 (no email enumeration); sends a Supabase recovery email linking to `<FRONTEND_URL>/reset-password`.
 - `POST /api/reset-password` — accepts `{ recoveryToken, newPassword }`, verifies the token, updates the password.
 
+## Polls & eligible voters
+
+- `POST /api/polls` — organizer only. Body: `{ title, description, question, options: [{ name, tagline? }], settings: { oneVotePerVoter, requireLogin, showResults, votingPin?, startDate?, endDate? }, eligibleEmails: [] }`. Creates the poll, its options, and one `eligible_voters` row per email. Returns the poll with a generated reference (e.g. `VTH-2026-X7K2`).
+- `GET /api/polls/reference/:ref` — public lookup for the join flow. Never leaks the PIN or invite list.
+- `GET /api/polls/:id` — public poll + options.
+- `GET /api/polls/:id/eligibility?email=&pin=` — can this email vote right now? Returns `{ restricted, eligible, hasVoted }`.
+- `POST /api/polls/:id/vote` — casts a ballot (rate-limited). Body: `{ optionId, email?, pin?, anonymousToken? }`. The server enforces: poll open, PIN correct, email on the invite list for restricted polls, no double voting. Sets `has_voted` on the voter's invite row.
+- `GET /api/polls/:id/results` — public when the poll shows results, otherwise organizer-owner only. Returns per-option votes, totals, and turnout %.
+- `GET /api/polls/:id/eligible-voters` — organizer-owner only. Invite list with voted/pending flags.
+- `POST /api/polls/:id/eligible-voters` — organizer-owner only. Body: `{ emails: [] }`. Adds invites, skipping duplicates.
+- `DELETE /api/polls/:id/eligible-voters/:evId` — organizer-owner only. Removes an invite (blocked once they've voted).
+
+Notes: all generated row IDs are UUID strings, so `eligible_voters.id` values fit the uuid-typed `Votes.voter_id` column. Recommended Supabase hardening: a unique constraint on `eligible_voters(poll_id, email)`.
+
 ## Production checklist
 
 - Set `NODE_ENV=production` (secure cookies, correct proxy handling).

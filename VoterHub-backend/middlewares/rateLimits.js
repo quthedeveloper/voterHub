@@ -17,3 +17,12 @@ export const passwordLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: "Too many attempts. Please try again in an hour." },
 });
+
+// Anti ballot-stuffing guard for the public vote endpoint: 60 votes per hour per IP.
+export const voteLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 60,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: { error: "Too many votes from this address. Please try again later." },
+});
