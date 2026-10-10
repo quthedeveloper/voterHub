@@ -1,0 +1,14 @@
+.sk {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg) 25%, #e9e9e6 37%, var(--bg) 63%);
+  background-size: 800px 100%;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes sk-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk { animation: none; }
+}

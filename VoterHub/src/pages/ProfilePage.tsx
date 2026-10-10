@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
 import NotificationsBell, { NotificationList } from "../components/NotificationsBell";
+import Skeleton from "../components/Skeleton";
 import { useAuth } from "../auth/AuthContext";
 import { useToast } from "../components/Toast";
 import { notificationsApi, type Notification } from "../lib/api";
@@ -24,9 +25,14 @@ export default function ProfilePage() {
   const toast = useToast();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notificationsLoading, setNotificationsLoading] = useState(true);
 
   useEffect(() => {
-    notificationsApi.list().then(({ notifications }) => setNotifications(notifications)).catch(() => {});
+    notificationsApi
+      .list()
+      .then(({ notifications }) => setNotifications(notifications))
+      .catch(() => {})
+      .finally(() => setNotificationsLoading(false));
   }, []);
 
   const handleSelectNotification = async (n: Notification) => {
@@ -109,7 +115,21 @@ export default function ProfilePage() {
 
           <div className="card anim-fade-up-3" style={{ marginTop: 16 }}>
             <h3 className="section-title">Notifications</h3>
-            <NotificationList notifications={notifications} onSelect={handleSelectNotification} />
+            {notificationsLoading ? (
+              <div aria-label="Loading notifications" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[0, 1, 2].map((i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    <Skeleton style={{ height: 34, width: 34, borderRadius: 8 }} />
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+                      <Skeleton style={{ height: 13, width: "45%" }} />
+                      <Skeleton style={{ height: 12, width: "80%" }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <NotificationList notifications={notifications} onSelect={handleSelectNotification} />
+            )}
           </div>
         </div>
 

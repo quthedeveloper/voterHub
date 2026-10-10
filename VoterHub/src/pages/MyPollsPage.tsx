@@ -5,6 +5,7 @@ import UserMenu from "../components/UserMenu";
 import NotificationsBell from "../components/NotificationsBell";
 import { Search, ArrowUpDown, Plus, ChevronDown } from "lucide-react";
 import { pollsApi, type DashboardPoll } from "../lib/api";
+import Skeleton from "../components/Skeleton";
 import "./MyPollsPage.css";
 
 type Filter = "all" | "active" | "closed";
@@ -143,7 +144,22 @@ export default function MyPollsPage() {
         </div>
 
         {loading ? (
-          <div className="card"><p className="muted" style={{ padding: 8 }}>Loading your polls…</p></div>
+          <div className="mypolls-list" aria-label="Loading polls">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="card" style={{ padding: 20 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+                    <Skeleton style={{ height: 16, width: "40%" }} />
+                    <Skeleton style={{ height: 12, width: "28%" }} />
+                  </div>
+                  <Skeleton style={{ height: 32, width: 70 }} />
+                  <Skeleton style={{ height: 32, width: 70 }} />
+                  <Skeleton style={{ height: 24, width: 64, borderRadius: 999 }} />
+                  <Skeleton style={{ height: 34, width: 96, borderRadius: 8 }} />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : error ? (
           <div className="card">
             <p style={{ color: "var(--danger)", fontSize: 14 }}>{error}</p>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { CheckCircle2, Clock } from "lucide-react";
 import { pollsApi, type Poll } from "../lib/api";
+import Skeleton from "../components/Skeleton";
 import "./VotingPage.css";
 
 function initials(name: string) {
@@ -76,7 +77,19 @@ export default function VotingPage() {
         </div>
 
         {loading ? (
-          <div className="route-loading"><div className="spinner" /></div>
+          <div aria-label="Loading ballot" style={{ width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+              <div style={{ flex: 1 }}>
+                <Skeleton style={{ height: 24, width: "60%", marginBottom: 8 }} />
+                <Skeleton style={{ height: 13, width: "35%" }} />
+              </div>
+              <Skeleton style={{ height: 28, width: 90, borderRadius: 999 }} />
+            </div>
+            <Skeleton style={{ height: 22, width: "80%", marginBottom: 24 }} />
+            {[0, 1, 2].map((i) => (
+              <Skeleton key={i} style={{ height: 64, borderRadius: 8, marginBottom: 12 }} />
+            ))}
+          </div>
         ) : !poll ? (
           <p style={{ color: "var(--danger)", fontSize: 14 }}>{error ?? "Poll not found."}</p>
         ) : (

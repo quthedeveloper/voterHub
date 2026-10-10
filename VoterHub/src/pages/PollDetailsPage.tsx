@@ -6,6 +6,7 @@ import NotificationsBell from "../components/NotificationsBell";
 import { Search, Share2, Pause, XCircle, Edit3, Plus, Trash2, Check, Minus } from "lucide-react";
 import { pollsApi, type Poll, type EligibleVoter } from "../lib/api";
 import { useToast } from "../components/Toast";
+import Skeleton from "../components/Skeleton";
 import "./PollDetailsPage.css";
 
 type DetailsState = { pollId?: string };
@@ -119,7 +120,31 @@ export default function PollDetailsPage() {
         </div>
 
         {loading ? (
-          <div className="route-loading"><div className="spinner" /></div>
+          <div aria-label="Loading poll details">
+            <div className="page-head">
+              <Skeleton style={{ height: 14, width: 120, marginBottom: 10 }} />
+              <Skeleton style={{ height: 34, width: "55%", marginBottom: 10 }} />
+              <Skeleton style={{ height: 14, width: "35%" }} />
+            </div>
+            <div className="dash-stats">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="card" style={{ padding: 20 }}>
+                  <Skeleton style={{ height: 26, width: "50%", marginBottom: 8 }} />
+                  <Skeleton style={{ height: 13, width: "75%" }} />
+                </div>
+              ))}
+            </div>
+            <div className="card" style={{ marginTop: 16 }}>
+              <Skeleton style={{ height: 18, width: 180, marginBottom: 16 }} />
+              {[0, 1, 2].map((i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <Skeleton style={{ height: 14, width: 140 }} />
+                  <Skeleton style={{ height: 8, flex: 1, borderRadius: 999 }} />
+                  <Skeleton style={{ height: 14, width: 48 }} />
+                </div>
+              ))}
+            </div>
+          </div>
         ) : error || !poll ? (
           <p style={{ color: "var(--danger)" }}>{error ?? "Poll not found."}</p>
         ) : (

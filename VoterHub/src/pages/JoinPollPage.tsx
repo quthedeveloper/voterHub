@@ -147,7 +147,7 @@ export default function JoinPollPage() {
                 </div>
                 {error && <p style={{ color: "var(--danger)", fontSize: 13, marginBottom: 12 }}>{error}</p>}
                 <button className="btn btn-primary btn-full" type="submit" disabled={loading}>
-                  {loading ? "Checking..." : "Continue to vote"}
+                  {loading ? <><span className="btn-spinner" />Checking...</> : "Continue to vote"}
                 </button>
               </form>
               <button className="join-poll-back" onClick={() => { setStep("lookup"); setPoll(null); }}>
@@ -174,7 +174,7 @@ export default function JoinPollPage() {
                 </div>
                 {error && <p style={{ color: "var(--danger)", fontSize: 13, marginBottom: 12 }}>{error}</p>}
                 <button className="btn btn-primary btn-full" type="submit" disabled={loading}>
-                  {loading ? "Finding poll..." : "Join Poll"}
+                  {loading ? <><span className="btn-spinner" />Finding poll...</> : "Join Poll"}
                 </button>
               </form>
             </>
