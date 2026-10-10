@@ -298,6 +298,7 @@ export async function castVote(req, res) {
 
     const restricted = Number(poll.eligible_voters_count ?? 0) > 0;
     let voterId = null;
+    let eligibleVoterId = null;
     let anonymousToken = null;
 
     if (restricted) {
@@ -334,7 +335,25 @@ export async function castVote(req, res) {
       if (row.has_voted && poll.one_vote_per_voter) {
         return res.status(409).json({ error: "This voter has already voted in this poll." });
       }
-      voterId = row.id;
+      eligibleVoterId = row.id;
+      // Votes.voter_id has a foreign key to profiles(id), so it can only
+      // reference a registered account. Unregistered invitees vote with
+      // voter_id NULL — their eligible_voters.has_voted flag below is the
+      // double-vote guard for them.
+      if (poll.require_login) {
+        voterId = authUserId; // == profiles.id; profile row proven above
+      } else {
+        try {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
+          if (profile?.id) voterId = profile.id;
+        } catch {
+          voterId = null;
+        }
+      }
     } else if (poll.one_vote_per_voter) {
       anonymousToken = typeof req.body?.anonymousToken === "string" ? req.body.anonymousToken.slice(0, 64) : null;
       if (anonymousToken) {
@@ -359,8 +378,8 @@ export async function castVote(req, res) {
     });
     if (voteError) throw voteError;
 
-    if (voterId) {
-      await supabase.from("eligible_voters").update({ has_voted: true }).eq("id", voterId);
+    if (eligibleVoterId) {
+      await supabase.from("eligible_voters").update({ has_voted: true }).eq("id", eligibleVoterId);
     }
 
     return res.status(201).json({ ok: true });
