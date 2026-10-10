@@ -113,7 +113,7 @@ export const pollsApi = {
   eligibility(
     id: string,
     params: { email?: string; pin?: string }
-  ): Promise<{ restricted: boolean; eligible: boolean; hasVoted: boolean }> {
+  ): Promise<{ restricted: boolean; eligible: boolean; hasVoted: boolean; needsEmail?: boolean }> {
     const q = new URLSearchParams();
     if (params.email) q.set("email", params.email);
     if (params.pin) q.set("pin", params.pin);

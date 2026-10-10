@@ -1,6 +1,5 @@
 import { randomUUID } from "crypto";
 import { supabase } from "../index.js";
-import { pollInviteEmail } from "../utils/email.js";
 import { createNotification, registeredProfiles } from "../utils/notifications.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,34 +87,21 @@ function checkPin(poll, pin) {
 }
 
 /**
- * Emails every invitee about a poll and drops an in-app notification for
- * the ones who already have accounts. Fire-and-forget: never blocks or
- * breaks the request that triggered it.
+ * Drops an in-app notification for every invitee who already has an account.
+ * Fire-and-forget: never blocks or breaks the request that triggered it.
  */
-async function notifyInvitees({ poll, votingPin, organizerName, emails }) {
+async function notifyInvitees({ poll, organizerName, emails }) {
   try {
     const registered = await registeredProfiles(emails);
     await Promise.allSettled(
-      emails.map(async (email) => {
-        const isRegistered = registered.has(email);
-        await pollInviteEmail({
-          to: email,
-          pollTitle: poll.title,
-          question: poll.question,
-          reference: poll.reference,
-          pin: votingPin,
-          organizerName,
-          registered: isRegistered,
+      [...registered.entries()].map(async ([email, userId]) => {
+        await createNotification({
+          userId,
+          type: "poll_invite",
+          title: "New poll invite",
+          body: `${organizerName} invited you to vote in "${poll.title}" (ref ${poll.reference}).`,
+          pollId: poll.id,
         });
-        if (isRegistered) {
-          await createNotification({
-            userId: registered.get(email),
-            type: "poll_invite",
-            title: "New poll invite",
-            body: `${organizerName} invited you to vote in "${poll.title}" (ref ${poll.reference}).`,
-            pollId: poll.id,
-          });
-        }
       })
     );
   } catch (err) {
@@ -209,10 +195,9 @@ export async function createPoll(req, res) {
     const shaped = shapePoll(poll, await getOptions(pollId));
 
     if (emails.length > 0) {
-      // Don't hold up the response waiting on email delivery.
+      // Don't hold up the response waiting on notifications.
       notifyInvitees({
         poll: shaped,
-        votingPin,
         organizerName: req.profile.full_name || "An organizer",
         emails,
       }).catch((err) => console.error("Invite notification error:", err));
@@ -263,8 +248,13 @@ export async function checkEligibility(req, res) {
     if (!restricted) return res.json({ restricted: false, eligible: true, hasVoted: false });
 
     const email = cleanEmail(req.query.email);
-    if (!email || !isEmail(email)) {
-      return res.status(400).json({ error: "A valid email address is required for this poll." });
+    if (!email) {
+      // Step 1 of the join flow probes PIN/open status before the voter has
+      // typed an email. Don't fail here — just say the email is still needed.
+      return res.json({ restricted: true, eligible: false, hasVoted: false, needsEmail: true });
+    }
+    if (!isEmail(email)) {
+      return res.status(400).json({ error: "Enter a valid email address." });
     }
     const { data } = await supabase
       .from("eligible_voters")
@@ -294,12 +284,41 @@ export async function castVote(req, res) {
     const option = options.find((o) => o.id === optionId);
     if (!option) return res.status(400).json({ error: "Choose a valid option." });
 
+    // Who's calling? The join UI blocks anonymous voters for login-required
+    // polls, but the rule has to be enforced here too — this endpoint is public.
+    let authUserId = null;
+    const bearer = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
+    if (bearer) {
+      const { data } = await supabase.auth.getUser(bearer);
+      if (data?.user) authUserId = data.user.id;
+    }
+    if (poll.require_login && !authUserId) {
+      return res.status(401).json({ error: "Log in to vote in this poll." });
+    }
+
     const restricted = Number(poll.eligible_voters_count ?? 0) > 0;
     let voterId = null;
     let anonymousToken = null;
 
     if (restricted) {
-      const email = cleanEmail(req.body?.email);
+      let email = cleanEmail(req.body?.email);
+      if (poll.require_login) {
+        // Bind the ballot to the logged-in identity: otherwise any logged-in
+        // voter could burn another invitee's vote by typing their email.
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("email")
+          .eq("id", authUserId)
+          .single();
+        const sessionEmail = cleanEmail(profile?.email);
+        if (!sessionEmail) {
+          return res.status(401).json({ error: "Log in to vote in this poll." });
+        }
+        if (email && email !== sessionEmail) {
+          return res.status(403).json({ error: "Vote with your own login email on this poll." });
+        }
+        email = sessionEmail;
+      }
       if (!email || !isEmail(email)) {
         return res.status(400).json({ error: "A valid email address is required for this poll." });
       }
@@ -411,7 +430,6 @@ export async function addEligibleVoters(req, res) {
       const { data: full } = await supabase.from("polls").select("*").eq("id", poll.id).single();
       notifyInvitees({
         poll: shapePoll(full ?? poll, []),
-        votingPin: poll.voting_pin,
         organizerName: req.profile.full_name || "An organizer",
         emails: fresh,
       }).catch((err) => console.error("Invite notification error:", err));
