@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/global.css";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProtectedRoute, GuestRoute } from "./auth/ProtectedRoute";
@@ -19,6 +19,7 @@ import VoteConfirmationPage from "./pages/VoteConfirmationPage";
 import ResultsPage from "./pages/ResultsPage";
 import PollDetailsPage from "./pages/PollDetailsPage";
 import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
           {/* Any signed-in user */}
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
 
           {/* Organizers only */}
@@ -53,9 +55,6 @@ export default function App() {
             <Route path="/poll-created" element={<PollCreatedPage />} />
             <Route path="/poll-details" element={<PollDetailsPage />} />
             <Route path="/my-polls" element={<MyPollsPage />} />
-            {/* Sidebar aliases: dedicated pages don't exist yet, so route to
-                the nearest real destination instead of falling through to "*". */}
-            <Route path="/settings" element={<Navigate to="/profile" replace />} />
           </Route>
 
           <Route path="*" element={<LandingPage />} />

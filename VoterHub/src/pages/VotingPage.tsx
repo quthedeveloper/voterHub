@@ -60,7 +60,7 @@ export default function VotingPage() {
         pin: state.pin,
         anonymousToken: state.email ? undefined : anonToken(),
       });
-      navigate("/vote-confirmation");
+      navigate("/vote-confirmation", { state: { pollId: poll.id } });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not submit your vote. Try again.");
     } finally {
