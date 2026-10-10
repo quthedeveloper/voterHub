@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import DashboardRouter from "./routes/dashboardroutes.js";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
@@ -50,6 +51,7 @@ if (missing.length > 0) {
 // Routes
 import SessionRouter from "./routes/session.js";
 app.use("/api", SessionRouter);
+app.use("/api", DashboardRouter);
 
 // Health check (no auth)
 app.get("/health", (_req, res) => res.json({ ok: true }));

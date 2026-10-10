@@ -1,9 +1,13 @@
 import Sidebar from "../components/Sidebar";
+  
 import UserMenu from "../components/UserMenu";
 import { useAuth } from "../auth/AuthContext";
 import { Search, Bell, MoreVertical, Archive, ArrowRight } from "lucide-react";
 import { BallotBoxSvg, ChartBarsSvg, UsersSvg } from "../components/illustrations";
 import "./DashboardPage.css";
+import { useEffect } from "react";
+import { apiFetch } from "../lib/api";
+
 
 const stats = [
   { label: "Total Polls", value: 5, art: <BallotBoxSvg width={22} height={22} title="Total polls" /> },
@@ -19,6 +23,20 @@ const polls = [
 ];
 
 export default function DashboardPage() {
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await apiFetch("/api/dashboard");
+        console.log("Dashboard data:", await response.json());
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+
   const { user } = useAuth();
   const firstName = user?.fullName.split(" ")[0] ?? "there";
   const hour = new Date().getHours();
