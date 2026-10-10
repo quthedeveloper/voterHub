@@ -57,3 +57,45 @@ export async function resetPassword(req, res) {
     return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
+
+// Changes the password for the logged-in user. The current password is
+// verified by re-authenticating, so a stolen session alone can't lock the
+// user out of their own account.
+export async function changePassword(req, res) {
+  try {
+    const currentPassword = req.body?.currentPassword;
+    const newPassword = req.body?.newPassword;
+
+    if (typeof newPassword !== "string" || newPassword.length < 8) {
+      return res.status(400).json({ error: "New password must be at least 8 characters." });
+    }
+    if (typeof currentPassword !== "string" || !currentPassword) {
+      return res.status(400).json({ error: "Enter your current password." });
+    }
+    if (newPassword === currentPassword) {
+      return res.status(400).json({ error: "New password must be different from the current one." });
+    }
+
+    const email = req.user?.email;
+    if (!email) return res.status(400).json({ error: "No email on this account." });
+
+    // Re-authenticate: wrong current password fails here.
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password: currentPassword,
+    });
+    if (signInError) {
+      return res.status(401).json({ error: "Current password is incorrect." });
+    }
+
+    const { error: updateError } = await supabase.auth.admin.updateUserById(req.user.id, {
+      password: newPassword,
+    });
+    if (updateError) throw updateError;
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("Change password error:", err);
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
+  }
+}

@@ -187,6 +187,15 @@ export const notificationsApi = {
   },
 };
 
+export const meApi = {
+  changePassword(currentPassword: string, newPassword: string): Promise<{ ok: boolean }> {
+    return apiJson("/api/me/password", {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  },
+};
+
 /** Silent refresh using the httpOnly cookie. Returns the new session or null. */
 export async function refreshSession(): Promise<Session | null> {
   try {

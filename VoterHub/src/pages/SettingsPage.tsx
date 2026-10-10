@@ -71,7 +71,7 @@ export default function SettingsPage() {
 
           <div className="card anim-fade-up-2">
             <h3 className="section-title"><KeyRound size={15} /> Security</h3>
-            <Link to="/forgot-password" className="settings-row">
+            <Link to="/change-password" className="settings-row">
               <span className="settings-row-label"><KeyRound size={15} /> Change password</span>
               <ChevronRight size={15} />
             </Link>
