@@ -61,6 +61,7 @@ function shapePoll(poll, options) {
     startDate: poll.start_date,
     endDate: poll.end_date,
     eligibleVotersCount: Number(poll.eligible_voters_count ?? 0),
+    createdAt: poll.created_at ?? null,
     open: isPollOpen(poll),
     options: (options ?? []).map((o) => ({ id: o.id, name: o.name, tagline: o.tagline })),
   };
@@ -163,6 +164,7 @@ export async function createPoll(req, res) {
       start_date: typeof s.startDate === "string" && s.startDate ? s.startDate : null,
       end_date: typeof s.endDate === "string" && s.endDate ? s.endDate : null,
       eligible_voters_count: emails.length,
+      created_at: new Date().toISOString(),
     });
     if (pollError) throw pollError;
 

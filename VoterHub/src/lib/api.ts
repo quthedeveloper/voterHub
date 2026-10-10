@@ -66,6 +66,7 @@ export type Poll = {
   endDate: string | null;
   eligibleVotersCount: number;
   open: boolean;
+  createdAt: string | null;
   options: PollOption[];
 };
 
