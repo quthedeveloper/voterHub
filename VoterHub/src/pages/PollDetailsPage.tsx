@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
-import { Search, Bell, Share2, Pause, XCircle, Edit3, Plus, Trash2, Check, Minus } from "lucide-react";
+import NotificationsBell from "../components/NotificationsBell";
+import { Search, Share2, Pause, XCircle, Edit3, Plus, Trash2, Check, Minus } from "lucide-react";
 import { pollsApi, type Poll, type EligibleVoter } from "../lib/api";
 import { useToast } from "../components/Toast";
 import "./PollDetailsPage.css";
@@ -112,7 +113,7 @@ export default function PollDetailsPage() {
         <div className="dash-topbar">
           <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
           <div className="dash-topbar-icons">
-            <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+            <NotificationsBell />
             <UserMenu />
           </div>
         </div>

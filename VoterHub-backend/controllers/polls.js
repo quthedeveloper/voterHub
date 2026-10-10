@@ -1,5 +1,7 @@
 import { randomUUID } from "crypto";
 import { supabase } from "../index.js";
+import { pollInviteEmail } from "../utils/email.js";
+import { createNotification, registeredProfiles } from "../utils/notifications.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_INVITES = 5000;
@@ -85,6 +87,42 @@ function checkPin(poll, pin) {
   return typeof pin === "string" && pin === poll.voting_pin;
 }
 
+/**
+ * Emails every invitee about a poll and drops an in-app notification for
+ * the ones who already have accounts. Fire-and-forget: never blocks or
+ * breaks the request that triggered it.
+ */
+async function notifyInvitees({ poll, votingPin, organizerName, emails }) {
+  try {
+    const registered = await registeredProfiles(emails);
+    await Promise.allSettled(
+      emails.map(async (email) => {
+        const isRegistered = registered.has(email);
+        await pollInviteEmail({
+          to: email,
+          pollTitle: poll.title,
+          question: poll.question,
+          reference: poll.reference,
+          pin: votingPin,
+          organizerName,
+          registered: isRegistered,
+        });
+        if (isRegistered) {
+          await createNotification({
+            userId: registered.get(email),
+            type: "poll_invite",
+            title: "New poll invite",
+            body: `${organizerName} invited you to vote in "${poll.title}" (ref ${poll.reference}).`,
+            pollId: poll.id,
+          });
+        }
+      })
+    );
+  } catch (err) {
+    console.error("Invite notification error:", err);
+  }
+}
+
 // POST /api/polls — organizer creates a poll with options and an invite list.
 export async function createPoll(req, res) {
   try {
@@ -168,7 +206,19 @@ export async function createPoll(req, res) {
     }
 
     const poll = await getPoll(pollId);
-    return res.status(201).json({ poll: shapePoll(poll, await getOptions(pollId)) });
+    const shaped = shapePoll(poll, await getOptions(pollId));
+
+    if (emails.length > 0) {
+      // Don't hold up the response waiting on email delivery.
+      notifyInvitees({
+        poll: shaped,
+        votingPin,
+        organizerName: req.profile.full_name || "An organizer",
+        emails,
+      }).catch((err) => console.error("Invite notification error:", err));
+    }
+
+    return res.status(201).json({ poll: shaped });
   } catch (err) {
     console.error("Create poll error:", err);
     return res.status(500).json({ error: "Something went wrong. Please try again." });
@@ -356,6 +406,17 @@ export async function addEligibleVoters(req, res) {
 
     const total = existingSet.size + fresh.length;
     await supabase.from("polls").update({ eligible_voters_count: total }).eq("id", poll.id);
+
+    if (fresh.length > 0) {
+      const { data: full } = await supabase.from("polls").select("*").eq("id", poll.id).single();
+      notifyInvitees({
+        poll: shapePoll(full ?? poll, []),
+        votingPin: poll.voting_pin,
+        organizerName: req.profile.full_name || "An organizer",
+        emails: fresh,
+      }).catch((err) => console.error("Invite notification error:", err));
+    }
+
     return res.status(201).json({ added: fresh.length, total });
   } catch (err) {
     console.error("Add eligible voters error:", err);

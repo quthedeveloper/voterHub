@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
-import { Plus, Search, Bell } from "lucide-react";
+import NotificationsBell from "../components/NotificationsBell";
+import { Plus, Search } from "lucide-react";
 import { pollsApi } from "../lib/api";
 import "./CreatePollPage.css";
 
@@ -75,7 +76,7 @@ export default function CreatePollPage() {
         <div className="dash-topbar">
           <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
           <div className="dash-topbar-icons">
-            <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+            <NotificationsBell />
             <UserMenu />
           </div>
         </div>

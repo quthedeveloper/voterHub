@@ -8,7 +8,7 @@ export function requireOrganizer(req, res, next) {
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, role")
+        .select("id, role, full_name")
         .eq("id", req.user.id)
         .single();
 

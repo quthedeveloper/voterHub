@@ -152,6 +152,31 @@ export const pollsApi = {
   },
 };
 
+/* ---------------- Notifications ---------------- */
+
+export type Notification = {
+  id: string;
+  type: string;
+  title: string;
+  body: string | null;
+  pollId: string | null;
+  pollReference: string | null;
+  read: boolean;
+  createdAt: string;
+};
+
+export const notificationsApi = {
+  list(): Promise<{ notifications: Notification[] }> {
+    return apiJson("/api/notifications");
+  },
+  markRead(id: string): Promise<{ ok: boolean }> {
+    return apiJson(`/api/notifications/${encodeURIComponent(id)}/read`, { method: "PATCH" });
+  },
+  markAllRead(): Promise<{ ok: boolean }> {
+    return apiJson("/api/notifications/read-all", { method: "POST" });
+  },
+};
+
 /** Silent refresh using the httpOnly cookie. Returns the new session or null. */
 export async function refreshSession(): Promise<Session | null> {
   try {

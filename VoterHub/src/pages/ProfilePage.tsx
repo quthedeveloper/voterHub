@@ -1,7 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import UserMenu from "../components/UserMenu";
+import NotificationsBell, { NotificationList } from "../components/NotificationsBell";
 import { useAuth } from "../auth/AuthContext";
 import { useToast } from "../components/Toast";
-import { Bell, ChevronRight, LogOut, KeyRound } from "lucide-react";
+import { notificationsApi, type Notification } from "../lib/api";
+import { ChevronRight, LogOut, KeyRound } from "lucide-react";
 import "./ProfilePage.css";
 
 function initials(name: string) {
@@ -18,6 +23,19 @@ export default function ProfilePage() {
   const { user, logout } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    notificationsApi.list().then(({ notifications }) => setNotifications(notifications)).catch(() => {});
+  }, []);
+
+  const handleSelectNotification = async (n: Notification) => {
+    if (!n.read) {
+      setNotifications((prev) => prev.map((x) => (x.id === n.id ? { ...x, read: true } : x)));
+      notificationsApi.markRead(n.id).catch(() => {});
+    }
+    if (n.pollReference) navigate(`/join-poll?ref=${encodeURIComponent(n.pollReference)}`);
+  };
 
   // ProtectedRoute only renders this page for a signed-in user.
   if (!user) return null;
@@ -32,6 +50,7 @@ export default function ProfilePage() {
 
   return (
     <div className="app-shell">
+      <Sidebar />
       <main className="app-main profile-main">
         <div className="profile-content">
           <div className="page-head anim-fade-up">
@@ -41,7 +60,8 @@ export default function ProfilePage() {
                 <h1 className="page-title">Profile</h1>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+                <NotificationsBell />
+                <UserMenu />
               </div>
             </div>
           </div>
@@ -85,6 +105,11 @@ export default function ProfilePage() {
               <span className="profile-link-label"><LogOut size={15} /> Log out</span>
               <ChevronRight size={15} />
             </button>
+          </div>
+
+          <div className="card anim-fade-up-3" style={{ marginTop: 16 }}>
+            <h3 className="section-title">Notifications</h3>
+            <NotificationList notifications={notifications} onSelect={handleSelectNotification} />
           </div>
         </div>
 

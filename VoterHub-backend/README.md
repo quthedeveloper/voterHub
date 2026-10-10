@@ -37,6 +37,19 @@ Health check: `GET /health`
 
 Notes: all generated row IDs are UUID strings, so `eligible_voters.id` values fit the uuid-typed `Votes.voter_id` column. Recommended Supabase hardening: a unique constraint on `eligible_voters(poll_id, email)`.
 
+## Invite emails & in-app notifications
+
+When a poll is created with an invite list (or voters are added later), the backend emails every invitee via Resend:
+
+- **Registered** (email matches a `profiles` row): email with the poll details, reference, PIN, and join link — plus an in-app notification (bell icon, profile section).
+- **Not registered**: the same email, plus a "Create a free account" prompt. They can still vote with just their email.
+
+Setup:
+
+1. Run `notifications.sql` once in the Supabase SQL editor (creates the `notifications` table). Until then, the backend skips in-app notifications gracefully and emails still send.
+2. Set `RESEND_API_KEY` and `EMAIL_FROM` in the backend `.env` (see `.env.example`). Without them, emails are logged instead of sent and nothing breaks.
+3. For production delivery to everyone (not just yourself), verify your sending domain in Resend.
+
 ## Production checklist
 
 - Set `NODE_ENV=production` (secure cookies, correct proxy handling).

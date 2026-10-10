@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import UserMenu from "../components/UserMenu";
-import { Search, Bell, QrCode, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react";
+import NotificationsBell from "../components/NotificationsBell";
+import { Search, QrCode, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react";
 import { ShareLinkSvg } from "../components/illustrations";
 import { useToast } from "../components/Toast";
 import "./PollCreatedPage.css";
@@ -57,7 +58,7 @@ export default function PollCreatedPage() {
         <div className="dash-topbar">
           <div className="dash-search"><Search size={16} /><input placeholder="Search polls..." /></div>
           <div className="dash-topbar-icons">
-            <button className="dash-icon-btn" aria-label="Notifications"><Bell size={18} /></button>
+            <NotificationsBell />
             <UserMenu />
           </div>
         </div>
