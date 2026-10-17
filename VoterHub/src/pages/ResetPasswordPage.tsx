@@ -7,6 +7,7 @@ import { ShieldCheckSvg } from "../components/illustrations";
 import { API_BASE } from "../lib/api";
 import "../styles/global.css";
 import "./AuthPages.css";
+import LogoMark from "../components/LogoMark";
 
 /** Supabase puts the recovery token in the URL hash: #access_token=...&type=recovery */
 function getRecoveryToken(): string | null {
@@ -75,7 +76,7 @@ export default function ResetPasswordPage() {
         <div className="split-auth-form">
           <div className="split-auth-form-inner">
             <Link to="/" className="logo" style={{ marginBottom: 40 }} aria-label="VoteHub home">
-              <span><CheckCircle2 size={16} /></span>
+              <LogoMark />
               VoteHub
             </Link>
 

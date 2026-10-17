@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, ListChecks, PlusCircle, BarChart3, Settings, CheckCircle2 } from "lucide-react";
+import { LayoutDashboard, ListChecks, PlusCircle, BarChart3, Settings } from "lucide-react";
 import { useAuth } from "../auth/AuthContext";
+import LogoMark from "./LogoMark";
 import "./Sidebar.css";
 
 const links = [
@@ -30,7 +31,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <Link to="/" className="sidebar-logo" aria-label="VoteHub home">
-        <span className="logo-mark"><CheckCircle2 size={16} /></span>
+        <LogoMark size={30} />
         <span>VoteHub</span>
       </Link>
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, Navigate } from "react-router-dom";
-import { CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Typewriter } from  "react-simple-typewriter";
 import { useAuth } from "../auth/AuthContext";
 import { API_BASE, homeForRole } from "../lib/api";
@@ -8,6 +8,7 @@ import { useToast } from "../components/Toast";
 import FormMessage from "../components/FormMessage";
 import { BallotBoxSvg } from "../components/illustrations";
 import "./AuthPages.css";
+import LogoMark from "../components/LogoMark";
 
 export default function SignupPage() {
    const navigate = useNavigate();
@@ -90,7 +91,7 @@ export default function SignupPage() {
         <div className="split-auth-form">
            <div className="split-auth-form-inner">
           <Link to="/" className="logo" style={{ marginBottom: 40 }} aria-label="VoteHub home">
-            <span><CheckCircle2 size={16} /></span>
+            <LogoMark />
             VoteHub
           </Link>
 

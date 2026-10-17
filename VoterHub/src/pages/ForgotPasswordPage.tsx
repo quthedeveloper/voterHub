@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 import FormMessage from "../components/FormMessage";
 import { ShieldCheckSvg } from "../components/illustrations";
 import { API_BASE } from "../lib/api";
 import "../styles/global.css";
 import "./AuthPages.css";
+import LogoMark from "../components/LogoMark";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ export default function ForgotPasswordPage() {
         <div className="split-auth-form">
           <div className="split-auth-form-inner">
             <Link to="/" className="logo" style={{ marginBottom: 40 }} aria-label="VoteHub home">
-              <span><CheckCircle2 size={16} /></span>
+              <LogoMark />
               VoteHub
             </Link>
 

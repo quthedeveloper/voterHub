@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CheckCircle2, FileText, Building2, Briefcase, GraduationCap, ShieldCheck, ArrowUpRight } from "lucide-react";
+import { FileText, Building2, Briefcase, GraduationCap, ShieldCheck, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import "./LandingPage.css";
 import { FaqSection } from "../components/Faq.tsx";
@@ -8,6 +8,7 @@ import SponsorsSection from "../components/Sponsors.tsx";
 import UserMenu from "../components/UserMenu";
 import { useAuth } from "../auth/AuthContext";
 import { BallotBoxSvg, ChartBarsSvg, UsersSvg } from "../components/illustrations";
+import LogoMark from "../components/LogoMark";
 
 function useCountUp(end: number, duration = 2000) {
   const [value, setValue] = useState(0);
@@ -53,7 +54,7 @@ export default function LandingPage() {
       <nav className="vh-nav">
         <div className="vh-nav-inner">
           <Link to="/" className="logo vh-logo" aria-label="VoteHub home">
-            <CheckCircle2 size={24} />
+            <LogoMark size={30} />
             VoteHub
           </Link>
           <div className="vh-nav-links">
@@ -193,7 +194,7 @@ export default function LandingPage() {
       <footer className="vh-footer">
         <div className="vh-inner">
           <Link to="/" className="logo vh-logo" aria-label="VoteHub home">
-            <CheckCircle2 size={24} />
+            <LogoMark size={30} />
             VoteHub
           </Link>
           <p className="vh-footer-lead">Trusted by teams, schools, and organizations</p>

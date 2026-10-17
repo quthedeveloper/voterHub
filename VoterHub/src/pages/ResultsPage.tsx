@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { CheckCircle2, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { ChartBarsSvg } from "../components/illustrations";
 import { pollsApi, type Poll } from "../lib/api";
 import { useAuth } from "../auth/AuthContext";
 import Skeleton from "../components/Skeleton";
 import "./ResultsPage.css";
+import LogoMark from "../components/LogoMark";
 
 type ResultOption = { id: string; name: string; tagline: string | null; votes: number; pct: number };
 type Results = {
@@ -87,7 +88,7 @@ export default function ResultsPage() {
     <div className="results-page">
       <div className="results-card">
         <div className="results-header">
-          <Link to="/" className="logo" aria-label="VoteHub home"><span className="logo-mark"><CheckCircle2 size={16} /></span>VoteHub</Link>
+          <Link to="/" className="logo" aria-label="VoteHub home"><LogoMark />VoteHub</Link>
           {poll?.open && (
             <span className="badge badge-active"><span className="results-live-dot" />Live Results</span>
           )}

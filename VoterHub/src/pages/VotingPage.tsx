@@ -4,6 +4,7 @@ import { CheckCircle2, Clock } from "lucide-react";
 import { pollsApi, type Poll } from "../lib/api";
 import Skeleton from "../components/Skeleton";
 import "./VotingPage.css";
+import LogoMark from "../components/LogoMark";
 
 function initials(name: string) {
   return name.split(" ").filter(Boolean).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
@@ -72,7 +73,7 @@ export default function VotingPage() {
     <div className="voting-page">
       <div className="voting-card">
         <Link to="/" className="logo" style={{ marginBottom: 20 }} aria-label="VoteHub home">
-          <span className="logo-mark"><CheckCircle2 size={16} /></span>
+          <LogoMark />
           VoteHub
         </Link>
 

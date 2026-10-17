@@ -1,0 +1,13 @@
+.logo-mark-img {
+  background: #fff !important;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.logo-mark-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}

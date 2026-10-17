@@ -5,6 +5,7 @@ import { ShieldCheckSvg } from "../components/illustrations";
 import { pollsApi, type Poll } from "../lib/api";
 import { useAuth } from "../auth/AuthContext";
 import "./JoinPollPage.css";
+import LogoMark from "../components/LogoMark";
 
 type Step = "lookup" | "email" | "blocked";
 
@@ -102,7 +103,7 @@ export default function JoinPollPage() {
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?fm=jpg&q=70&w=700&auto=format&fit=crop')" }}
         >
           <Link to="/" className="logo" style={{ color: "#fff" }} aria-label="VoteHub home">
-            <span className="logo-mark" style={{ background: "#fff", color: "var(--ink)" }}>✓</span>
+            <LogoMark />
             VoteHub
           </Link>
           <div className="join-poll-hero-art">
