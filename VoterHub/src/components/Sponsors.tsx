@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { SonarGrid } from "@/components/ui/sonar-grid";
 
 // NOTE: replace these with VoteHub's real sponsors when they're confirmed.
 const SPONSORS = [
@@ -33,7 +34,12 @@ export default function SponsorsSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="vh-band vh-band-dark" id="sponsors">
+    <SonarGrid
+      id="sponsors"
+      className="vh-band vh-band-dark"
+      color="#f97316"
+      pingEvery={2.8}
+    >
       <div className="vh-inner">
         <p className="vh-eyebrow">Sponsors</p>
         <div className="vh-sponsors-head">
@@ -76,6 +82,6 @@ export default function SponsorsSection() {
           })}
         </div>
       </div>
-    </section>
+    </SonarGrid>
   );
 }

@@ -1,0 +1,21 @@
+/* Plain-CSS equivalents of the Tailwind utilities used by SonarGrid,
+   so the component works without Tailwind in this codebase. */
+
+.sonar-grid {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sonar-grid-interactive {
+  cursor: crosshair;
+}
+
+.sonar-grid-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
