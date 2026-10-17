@@ -1,0 +1,103 @@
+/* VoteHub-themed button styles backing the shadcn `buttonVariants` API.
+   Plain CSS equivalents — no Tailwind in this codebase. */
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease,
+    box-shadow 150ms ease, filter 150ms ease;
+}
+.ui-btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.ui-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.ui-btn svg {
+  flex-shrink: 0;
+}
+
+/* variants */
+.ui-btn-default {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.ui-btn-default:hover {
+  background: var(--accent-deep);
+}
+.ui-btn-destructive {
+  background: var(--danger);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.ui-btn-destructive:hover {
+  filter: brightness(0.93);
+}
+.ui-btn-outline {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--ink);
+}
+.ui-btn-outline:hover {
+  background: var(--bg);
+}
+.ui-btn-secondary {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+.ui-btn-secondary:hover {
+  filter: brightness(0.97);
+}
+.ui-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.ui-btn-ghost:hover {
+  background: rgba(16, 16, 20, 0.06);
+}
+.ui-btn-link {
+  background: none;
+  border: none;
+  height: auto;
+  padding: 0;
+  color: var(--accent);
+  text-underline-offset: 4px;
+  border-radius: 0;
+}
+.ui-btn-link:hover {
+  text-decoration: underline;
+}
+
+/* sizes */
+.ui-btn-size-default {
+  height: 42px;
+  padding: 0 18px;
+}
+.ui-btn-size-sm {
+  height: 34px;
+  padding: 0 13px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+.ui-btn-size-lg {
+  height: 48px;
+  padding: 0 30px;
+  font-size: 15px;
+}
+.ui-btn-size-icon {
+  height: 42px;
+  width: 42px;
+  padding: 0;
+}

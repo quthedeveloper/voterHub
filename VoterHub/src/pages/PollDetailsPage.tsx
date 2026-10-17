@@ -6,6 +6,16 @@ import NotificationsBell from "../components/NotificationsBell";
 import { Share2, XCircle, Plus, Trash2, Check, Minus, RotateCcw } from "lucide-react";
 import { pollsApi, type Poll, type EligibleVoter } from "../lib/api";
 import { useToast } from "../components/Toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../components/ui/alert-dialog";
 import Skeleton from "../components/Skeleton";
 import "./PollDetailsPage.css";
 
@@ -32,6 +42,7 @@ export default function PollDetailsPage() {
   const [newEmails, setNewEmails] = useState("");
   const [adding, setAdding] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [confirmClose, setConfirmClose] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const pollId = state.pollId;
@@ -90,11 +101,7 @@ export default function PollDetailsPage() {
     }
   };
 
-  const closePoll = () => {
-    if (window.confirm("Close this poll? Voters won't be able to vote anymore.")) {
-      void setStatus("closed");
-    }
-  };
+  const closePoll = () => setConfirmClose(true);
 
   const reopenPoll = () => void setStatus("active");
 
@@ -292,6 +299,28 @@ export default function PollDetailsPage() {
           </>
         )}
       </main>
+
+      <AlertDialog open={confirmClose} onOpenChange={setConfirmClose}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Close this poll?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Voters won&apos;t be able to vote anymore. You can reopen the
+              poll later if you need to.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={toggling}>Keep open</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              disabled={toggling}
+              onClick={() => void setStatus("closed")}
+            >
+              {toggling ? "Closing…" : "Close poll"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

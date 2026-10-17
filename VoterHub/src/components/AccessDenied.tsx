@@ -1,8 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LogIn, UserPlus, ArrowLeft, LayoutDashboard, Vote } from "lucide-react";
 import { ShieldCheckSvg, UsersSvg } from "./illustrations";
 import type { SessionUser } from "../lib/api";
-import "./AccessDenied.css";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "./ui/alert-dialog";
+import { Button } from "./ui/button";
 
 type Role = SessionUser["role"];
 
@@ -14,38 +22,39 @@ export function LoginRequired({ from }: { from: string }) {
   const navigate = useNavigate();
 
   return (
-    <div className="access-denied-page">
-      <div className="access-denied-card anim-pop-in">
-        <div className="access-denied-art">
+    <AlertDialog open>
+      <AlertDialogContent onEscapeKeyDown={(e) => e.preventDefault()}>
+        <div className="ui-alert-art">
           <ShieldCheckSvg width={84} height={84} title="Login required" />
         </div>
-        <p className="page-eyebrow" style={{ textAlign: "center" }}>Restricted area</p>
-        <h1>You're not logged in</h1>
-        <p className="muted">
-          This page needs an account. Log in to continue, or create a free
-          account if you're new here.
-        </p>
-        <div className="access-denied-actions">
-          <Link
-            to="/login"
-            state={{ from }}
-            className="btn btn-primary btn-full"
-          >
+        <AlertDialogHeader className="ui-alert-header-center">
+          <p className="ui-alert-eyebrow">Restricted area</p>
+          <AlertDialogTitle>You&apos;re not logged in</AlertDialogTitle>
+          <AlertDialogDescription>
+            This page needs an account. Log in to continue, or create a free
+            account if you&apos;re new here.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="ui-alert-footer-col">
+          <Button onClick={() => navigate("/login", { state: { from } })}>
             <LogIn size={16} /> Log in
-          </Link>
-          <Link to="/signup" className="btn btn-outline btn-full">
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate("/signup")}
+          >
             <UserPlus size={16} /> Create account
-          </Link>
-        </div>
+          </Button>
+        </AlertDialogFooter>
         <button
           type="button"
-          className="access-denied-back"
+          className="ui-alert-back"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft size={14} /> Go back
         </button>
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 
@@ -60,38 +69,36 @@ export function WrongRole({ actualRole }: { actualRole: Role }) {
   const destinationLabel = isVoter ? "Go to polls" : "Go to dashboard";
 
   return (
-    <div className="access-denied-page">
-      <div className="access-denied-card anim-pop-in">
-        <div className="access-denied-art">
+    <AlertDialog open>
+      <AlertDialogContent onEscapeKeyDown={(e) => e.preventDefault()}>
+        <div className="ui-alert-art">
           <UsersSvg width={84} height={84} title="Wrong role" />
         </div>
-        <p className="page-eyebrow" style={{ textAlign: "center" }}>Heads up</p>
-        <h1>
-          {isVoter ? "Organizers only" : "Voters only"}
-        </h1>
-        <p className="muted">
-          {isVoter
-            ? "You're signed in as a voter, and this area is for organizers. Head to the polls page instead."
-            : "You're signed in as an organizer, and this area is for voters. Head to your dashboard instead."}
-        </p>
-        <div className="access-denied-actions">
-          <button
-            type="button"
-            className="btn btn-primary btn-full"
-            onClick={() => navigate(destination, { replace: true })}
-          >
+        <AlertDialogHeader className="ui-alert-header-center">
+          <p className="ui-alert-eyebrow">Heads up</p>
+          <AlertDialogTitle>
+            {isVoter ? "Organizers only" : "Voters only"}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {isVoter
+              ? "You're signed in as a voter, and this area is for organizers. Head to the polls page instead."
+              : "You're signed in as an organizer, and this area is for voters. Head to your dashboard instead."}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="ui-alert-footer-col">
+          <Button onClick={() => navigate(destination, { replace: true })}>
             {isVoter ? <Vote size={16} /> : <LayoutDashboard size={16} />}
             {destinationLabel}
-          </button>
-        </div>
+          </Button>
+        </AlertDialogFooter>
         <button
           type="button"
-          className="access-denied-back"
+          className="ui-alert-back"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft size={14} /> Go back
         </button>
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
